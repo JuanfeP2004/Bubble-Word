@@ -8,27 +8,102 @@
     <script src="js/main.js" type="module"></script>
 </head>
 <body>
+
     <section id="screen-inicio">
-        <h1>BUBBLE WORD</h1>
-        <button class="navButton" data-page="screen-juego">JUGAR</button>
-        <button class="navButton" data-page="screen-opciones">OPCIONES</button>
-        <button class="navButton" data-page="screen-puntuacion">PUNTUACION</button>
-        <span>CREDITOS</span>
-        <span>Juan Felipe Ramirez</span>
-        <span>Andres Felipe Saenz</span>
-        <span>Victor Alfonso Martinez</span>
+        <h1 class="tittle">BUBBLE WORD</h1>
+        <button class="navButton button" data-page="screen-juego">JUGAR</button>
+        <button class="navButton button" data-page="screen-opciones">OPCIONES</button>
+        <button class="navButton button" data-page="screen-puntuacion">PUNTUACION</button>
+        <span class="bigtext">CREDITOS</span>
+        <span class="bigtext">Juan Felipe Ramirez</span>
+        <span class="bigtext">Andres Felipe Saenz</span>
+        <span class="bigtext">Victor Alfonso Martinez</span>
     </section>
+
     <section id="screen-juego">
-        juego
+        <div class="head-game">
+            <div class="game-info">
+                <div class="time-container">
+                    <img class="time-logo" src="" alt="">
+                    <div class="time-text">
+                        <p class="time">Tiempo:</p>
+                        <p class="time-number"></p>
+                    </div>
+                </div>
+                <div class="points-container">
+                    <p class="points-text">Puntos:</p>
+                    <p class="points-number"></p>
+                </div>
+            </div>
+            <img class="game-photo" src="" alt="">
+        </div>
+        <h2 class="objetive-text">Escriba la palabra</h2>
+        <div class="objective-words">
+
+        </div>
+        <div class="bubble-soup">
+
+        </div>
     </section>
+
     <section id="screen-fin">
-        fin
+        <h1 class="title">HAS PERDIDO</h2>
+        <h2 class="bigtitle">Puntaje Final:</h2>
+        <h2 class="finalpoints-number"></h2>
+        <div class="send-puntuation">
+            <input type="text" class="name-textfield">
+            <button class="send-button">PUNTUACION</button>
+        </div>
+        <p class="send-text"></p>
+        <div class="navegation-buttons">
+            <button class="navButton nav-button" data-page="screen-juego">REINTENTAR</button>
+            <button class="navButton send-button" data-page="screen-inicio">SALIR</button>
+        </div>       
     </section>
+
     <section id="screen-opciones">
-        opciones
+        <h1 class="title">OPCIONES</h1>
+        <h2 class="subtitle">DIFICULTAD</h2>
+
+        <div class="dificulty-selector">
+            <div>
+                <p class="dificulty-title">FACIL</p>
+                <p class="dificulty-time">00:30</p>
+            </div>
+            <p class="grid-size">5x5</p>
+        </div>
+        <div class="dificulty-selector">
+            <div>
+                <p class="dificulty-title">NORMAL</p>
+                <p class="dificulty-time">00:20</p>
+            </div>
+            <p class="grid-size">7x7</p>
+        </div>
+        <div class="dificulty-selector">
+            <div>
+                <p class="dificulty-title">DIFICIL</p>
+                <p class="dificulty-time">00:10</p>
+            </div>
+            <p class="grid-size">9x9</p>
+        </div>
+        <button class="navButton button" data-page="screen-inicio">
+            <img src="" alt="" class="back-logo">
+            REGRESAR
+        </button>
     </section>
+
     <section id="screen-puntuacion">
-        puntuacion
+        <h1 class="title">MEJORES JUEGOS</h1>
+
+        <div class="bestgames-container">
+
+        </div>
+
+        <button class="navButton button" data-page="screen-inicio">
+            <img src="" alt="" class="back-logo">
+            REGRESAR
+        </button>
     </section>
+
 </body>
 </html>
