@@ -3,11 +3,11 @@ class Navegacion {
     paginas = [];
 
     constructor() {
-        this.paginas.push({ nombre: "inicio", ref: document.getElementById('screen-inicio')});
-        this.paginas.push({ nombre: "juego", ref: document.getElementById('screen-juego')});
-        this.paginas.push({ nombre: "verHoy", ref: document.getElementById('screen-fin')});
-        this.paginas.push({ nombre: "calendario", ref: document.getElementById('screen-opciones')});
-        this.paginas.push({ nombre: "pomodoro", ref: document.getElementById('screen-puntuacion')});
+        this.paginas.push({ nombre: "screen-inicio", ref: document.getElementById('screen-inicio')});
+        this.paginas.push({ nombre: "screen-juego", ref: document.getElementById('screen-juego')});
+        this.paginas.push({ nombre: "screen-fin", ref: document.getElementById('screen-fin')});
+        this.paginas.push({ nombre: "screen-opciones", ref: document.getElementById('screen-opciones')});
+        this.paginas.push({ nombre: "screen-puntuacion", ref: document.getElementById('screen-puntuacion')});
 
         document.querySelectorAll('.navButton').forEach(item => {
             item.addEventListener('click', this.cambiarPagina.bind(this));
@@ -16,7 +16,7 @@ class Navegacion {
 
     paginaInicial(){
         this.paginas.find(pagina => {
-            if(pagina.nombre === 'inicio'){
+            if(pagina.nombre === 'screen-inicio'){
                 pagina.ref.style.display = 'block';
             }
             else {
