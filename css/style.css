@@ -1,0 +1,66 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: #fff;
+}
+
+#screen-inicio {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.tittle {
+  font-size: 2.3rem;
+  font-weight: 400;
+  margin: 60px 0 150px 0;
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+/* Botones apilados y centrados */
+.button, .navButton {
+  width: 240px;
+  height: 40px;
+  margin: 14px 0 20px 0;
+  border: none;
+  border-radius: 20px;
+  background: #ddd;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.button:first-of-type, .navButton:first-of-type {
+  margin-top: 0;
+}
+.button:hover, .navButton:hover {
+  background: #ccc;
+}
+
+/* Créditos */
+#screen-inicio .bigtext {
+  display: block;
+  font-size: 1rem;
+  color: #222;
+  text-align: center;
+  margin-top: 70px;
+}
+#screen-inicio .bigtext + .bigtext {
+  margin-top: 4px;
+}
+
+/* Ajuste para los nombres de los creadores */
+#screen-inicio .bigtext:nth-child(n+6) {
+  margin-top: 4px;
+} 
