@@ -11,53 +11,78 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1; /* Detrás del contenido */
-  background: #71C2DF; /* Fondo negro para resaltar las letras */
-}
-
-#screen-inicio {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  z-index: -1; 
+  background: #71C2DF;
 }
 
 .tittle {
-  font-size: 2.3rem;
-  font-weight: 400;
+  font-family: 'Poppins', sans-serif; 
+  font-size: 3rem; 
+  font-weight: 700; 
+  color: #333; 
   margin: 60px 0 150px 0;
-  letter-spacing: 1px;
+  letter-spacing: 2px; 
   text-align: center;
-  line-height: 1.1;
+  line-height: 1.2;
 }
 
-/* Botones apilados y centrados */
+
+#screen-inicio .bigtext {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 1rem;
+  font-weight: 400; 
+  color: #555; 
+  text-align: center;
+  margin-top: 70px;
+}
+
+#screen-inicio .bigtext + .bigtext {
+  margin-top: 4px;
+}
+
+
+#screen-inicio .bigtext:nth-child(n+6) {
+  margin-top: 4px;
+}
+
+
 .button, .navButton {
   width: 240px;
-  height: 40px;
+  height: 50px; 
   margin: 14px 0 20px 0;
   border: none;
-  border-radius: 20px;
-  background: #ddd;
-  color: #222;
-  font-size: 1rem;
-  font-weight: 400;
+  border-radius: 25px; 
+  background: linear-gradient(135deg, #4CAF50, #81C784); 
+  color: #fff; 
+  font-size: 1.2rem; 
+  font-weight: bold; 
   letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none; 
+  line-height: 50px; 
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform 0.2s, background 0.3s;
   display: block;
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
 }
+
 .button:first-of-type, .navButton:first-of-type {
   margin-top: 0;
 }
+
 .button:hover, .navButton:hover {
-  background: #ccc;
+  background: linear-gradient(135deg, #388E3C, #66BB6A); 
+  transform: scale(1.05); 
 }
 
-/* Créditos */
+.button:active, .navButton:active {
+  transform: scale(0.95); 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
 #screen-inicio .bigtext {
   display: block;
   font-size: 1rem;
@@ -69,7 +94,7 @@ body {
   margin-top: 4px;
 }
 
-/* Ajuste para los nombres de los creadores */
+
 #screen-inicio .bigtext:nth-child(n+6) {
   margin-top: 4px;
 } 
