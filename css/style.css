@@ -5,6 +5,15 @@ body {
   font-family: 'Arial', sans-serif;
   background: #fff;
 }
+#backgroundCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Detrás del contenido */
+  background: #71C2DF; /* Fondo negro para resaltar las letras */
+}
 
 #screen-inicio {
   min-height: 100vh;
