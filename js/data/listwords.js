@@ -43,4 +43,4 @@ class ListWords {
     ]
 }
 
-export default ListWords
+export default ListWords;
