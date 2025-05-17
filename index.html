@@ -6,13 +6,122 @@
     <title>Bubble Word</title>
     <link rel="shortcut icon" href="img/BubbleWordLogo.ico">
     <link rel="stylesheet" href="css/splash.css">
-   
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-vista="charge">
-    <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
-    <script>
+<body>
+    <!-- ==============================================
+    VISTA DE CARGA (SPLASH SCREEN)
+    ============================================== -->
+    <div id="splash-screen">
+        <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
+    </div>
+
+    <!-- ==============================================
+    VISTA PRINCIPAL (MAIN MENU)
+    ============================================== -->
+    <div id="main-screen" style="display: none;">
+        <canvas id="backgroundCanvas"></canvas>
+        <section id="screen-inicio">
+            <h1 class="tittle">BUBBLE WORD</h1>
+            <a href="#" class="button navButton" data-page="screen-juego">JUGAR</a>
+            <a href="#" class="button navButton" data-page="screen-opciones">OPCIONES</a>
+            <a href="#" class="button navButton" data-page="screen-puntuacion">PUNTUACION</a>
+            <span class="bigtext">CREDITOS</span>
+            <span class="bigtext">Juan Felipe Ramirez</span>
+            <span class="bigtext">Andres Felipe Saenz</span>
+            <span class="bigtext">Victor Alfonso Martinez</span>
+        </section>
+    </div>
+
+    <!-- ==============================================
+    VISTA DE JUEGO (GAME SCREEN)
+    ============================================== -->
+    <div id="game-screen" style="display: none;">
+        <canvas id="backgroundCanvas"></canvas>
+        <section id="screen-juego">
+            <div class="head-game">
+                <div class="game-info">
+                    <div class="time-container" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="time-text">
+                            <p class="time" style="margin:0;">
+                                Tiempo <span id="time-number" class="time-number">30s</span>
+                            </p>
+                        </div>
+                        <canvas id="hourglass" width="32" height="48" style="vertical-align: middle;"></canvas>
+                    </div>
+                    <div class="points-container">
+                        <p class="points-text">Puntos:</p>
+                        <p class="points-number">0</p>
+                    </div>
+                </div>
+                <img class="game-photo" src="" alt="">
+            </div>
+            <h2 class="objetive-text">Escriba la palabra</h2>
+            <div class="objective-words"></div>
+            <div class="bubble-soup"></div>
+        </section>
+    </div>
+
+    <!-- ==============================================
+    VISTA DE OPCIONES (OPTIONS SCREEN)
+    ============================================== -->
+    <div id="options-screen" style="display: none;">
+        <canvas id="backgroundCanvas"></canvas>
+        <section id="screen-opciones">
+            <h1 class="title">OPCIONES</h1>
+            <h2 class="subtitle">DIFICULTAD</h2>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">FACIL</p>
+                    <p class="dificulty-time">00:30</p>
+                </div>
+                <p class="grid-size">5x5</p>
+            </div>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">NORMAL</p>
+                    <p class="dificulty-time">00:20</p>
+                </div>
+                <p class="grid-size">7x7</p>
+            </div>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">DIFICIL</p>
+                    <p class="dificulty-time">00:10</p>
+                </div>
+                <p class="grid-size">9x9</p>
+            </div>
+            <a href="#" class="button navButton" data-page="screen-inicio">REGRESAR</a>
+        </section>
+    </div>
+
+    <!-- ==============================================
+    VISTA DE PUNTUACIÓN (SCORE SCREEN)
+    ============================================== -->
+    <div id="score-screen" style="display: none;">
+        <canvas id="backgroundCanvas"></canvas>
+        <section id="screen-puntuacion">
+            <h1 class="title">MEJORES JUEGOS</h1>
+            <div class="bestgames-container"></div>
+            <a href="#" class="button navButton" data-page="screen-inicio">REGRESAR</a>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/utils/reloj.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/main.js" type="module"></script>
+    <script type="module">
+        import Navegacion from './js/utils/navegation.js';
+        
+        // Manejo de la vista de carga
         setTimeout(() => {
-            window.location.href = "main.html";
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-screen').style.display = 'block';
+            
+            // Inicializar la navegación después de mostrar la pantalla principal
+            const navegacion = new Navegacion();
+            navegacion.paginaInicial();
         }, 2000);
     </script>
 </body>
