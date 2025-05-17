@@ -9,16 +9,12 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- ==============================================
-    VISTA DE CARGA (SPLASH SCREEN)
-    ============================================== -->
+    <!--VISTA DE CARGA (SPLASH SCREEN)-->
     <div id="splash-screen">
         <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
     </div>
 
-    <!-- ==============================================
-    VISTA PRINCIPAL (MAIN MENU)
-    ============================================== -->
+    <!--VISTA PRINCIPAL (MAIN MENU)-->
     <div id="main-screen" style="display: none;">
         <canvas id="backgroundCanvas"></canvas>
         <section id="screen-inicio">
@@ -33,9 +29,7 @@
         </section>
     </div>
 
-    <!-- ==============================================
-    VISTA DE JUEGO (GAME SCREEN)
-    ============================================== -->
+    <!-- VISTA DE JUEGO (GAME SCREEN) -->
     <div id="game-screen" style="display: none;">
         <canvas id="backgroundCanvas"></canvas>
         <section id="screen-juego">
@@ -62,9 +56,7 @@
         </section>
     </div>
 
-    <!-- ==============================================
-    VISTA DE OPCIONES (OPTIONS SCREEN)
-    ============================================== -->
+    <!-- VISTA DE OPCIONES (OPTIONS SCREEN) -->
     <div id="options-screen" style="display: none;">
         <canvas id="backgroundCanvas"></canvas>
         <section id="screen-opciones">
@@ -95,9 +87,7 @@
         </section>
     </div>
 
-    <!-- ==============================================
-    VISTA DE PUNTUACIÓN (SCORE SCREEN)
-    ============================================== -->
+    <!--VISTA DE PUNTUACIÓN (SCORE SCREEN) -->
     <div id="score-screen" style="display: none;">
         <canvas id="backgroundCanvas"></canvas>
         <section id="screen-puntuacion">
@@ -113,13 +103,14 @@
     <script src="js/main.js" type="module"></script>
     <script type="module">
         import Navegacion from './js/utils/navegation.js';
+        import Reloj from './js/utils/reloj.js';
         
         // Manejo de la vista de carga
         setTimeout(() => {
             document.getElementById('splash-screen').style.display = 'none';
             document.getElementById('main-screen').style.display = 'block';
             
-            // Inicializar la navegación después de mostrar la pantalla principal
+            // Inicializar la navegación después de mostrar el splash
             const navegacion = new Navegacion();
             navegacion.paginaInicial();
         }, 2000);

@@ -1,6 +1,9 @@
+import Reloj from './reloj.js';
+
 class Navegacion {
 
     paginas = [];
+    reloj = null;
 
     constructor() {
         // Mapear los IDs de las vistas con sus contenedores
@@ -11,7 +14,10 @@ class Navegacion {
             { nombre: "screen-puntuacion", ref: document.getElementById('score-screen') }
         ];
 
-        // Agregar event listeners a los botones de navegación
+        // Inicializar el reloj de arena
+        this.reloj = new Reloj('time-number', 'hourglass', 30);
+
+        //botones de navegación
         document.querySelectorAll('.navButton').forEach(item => {
             item.addEventListener('click', this.cambiarPagina.bind(this));
         });
@@ -31,13 +37,23 @@ class Navegacion {
         let parametro = evento.target.getAttribute('data-page');
         evento.preventDefault();
 
+        let paginaActual = this.paginas.find(pagina => pagina.ref.style.display === 'block');
+
         this.paginas.forEach(pagina => {
             if (pagina.nombre === parametro) {
                 pagina.ref.style.display = 'block';
+
+                if (pagina.nombre === 'screen-juego') {
+                    this.reloj.start();
+                }
+
             } else {
                 pagina.ref.style.display = 'none';
             }
         });
+        if (paginaActual && paginaActual.nombre === 'screen-juego' && parametro !== 'screen-juego') {
+            this.reloj.reset();
+        }
     }
 }
 
