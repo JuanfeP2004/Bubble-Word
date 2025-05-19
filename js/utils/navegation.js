@@ -49,10 +49,11 @@ class Navegacion {
                 if (pagina.nombre === 'screen-juego') {
                     this.reloj.start();
                     this.game.GetWordObject();
-                    const gamePhoto = document.querySelector('.game-photo');
-                    if (gamePhoto) {
-                        gamePhoto.src = this.game.actual_image;
-                    }
+                    // The image display is now handled within the Game class
+                    // const gamePhoto = document.querySelector('.game-photo');
+                    // if (gamePhoto) {
+                    //     gamePhoto.src = this.game.actual_image;
+                    // }
 
                     // Generate underlines for the word
                     const objectiveWordsContainer = document.querySelector('.objective-words');
@@ -90,6 +91,12 @@ class Navegacion {
                         const bubble = document.createElement('div');
                         bubble.classList.add('bubble');
                         bubble.textContent = letter.toUpperCase(); // Display uppercase letter in bubble
+                        
+                        // Add click event listener
+                        bubble.addEventListener('click', () => {
+                            this.game.handleBubbleClick(letter);
+                        });
+
                         bubbleSoupContainer.appendChild(bubble);
                     });
 

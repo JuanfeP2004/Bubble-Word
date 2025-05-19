@@ -11,12 +11,16 @@ class Game{
 
     actual_word = '';
     actual_image = '';
+    guessedWordDisplay = [];
     points = 0;
 
     GetWordObject(){      
         let index = Math.floor(Math.random()*this.list.length);
-        this.GetWord(this.list[index]);
-        this.GetImage(this.list[index]);
+        const selectedWordObject = this.list[index];
+        this.GetWord(selectedWordObject);
+        this.GetImage(selectedWordObject);
+        this.initializeGuessedWordDisplay();
+        this.updateGamePhotoDisplay();
     }
 
     GetWord(object){
@@ -25,6 +29,35 @@ class Game{
 
     GetImage(object){
         this.actual_image = object.image;
+    }
+
+    initializeGuessedWordDisplay() {
+        this.guessedWordDisplay = Array(this.actual_word.length).fill('_');
+        this.updateWordDisplay();
+    }
+
+    handleBubbleClick(letter) {
+        const emptyIndex = this.guessedWordDisplay.indexOf('_');
+        if (emptyIndex !== -1) {
+            this.guessedWordDisplay[emptyIndex] = letter.toLowerCase();
+            this.updateWordDisplay();
+        }
+    }
+
+    updateWordDisplay() {
+        const objectiveWordsContainer = document.querySelector('.objective-words');
+        if (objectiveWordsContainer) {
+            objectiveWordsContainer.innerHTML = this.guessedWordDisplay.map(char => 
+                `<span class="word-underline">${char.toUpperCase()}</span>`
+            ).join('');
+        }
+    }
+
+    updateGamePhotoDisplay() {
+        const gamePhoto = document.querySelector('.game-photo');
+        if (gamePhoto) {
+            gamePhoto.src = this.actual_image;
+        }
     }
 
     ProbeWord(word, time) {

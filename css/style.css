@@ -148,10 +148,28 @@ body {
 }
 
 #game-screen .objective-words .word-underline {
-    display: inline-block;
+    display: inline-block; /* Keep as inline-block or flex */
     width: 30px; /* Adjust width as needed */
-    height: 2px; /* Thickness of the underline */
-    background-color: #333; /* Color of the underline */
+    height: 30px; /* Give it a height to center content */
+    text-align: center; /* Center text horizontally */
+    border-bottom: 2px solid #333; /* Use border-bottom for the underline */
+    margin: 0 5px; /* Space between underlines */
+    line-height: 30px; /* Vertically center text with line-height equal to height */
+    color: #333; /* Color of the letter */
+    font-size: 1.2rem; /* Adjust font size as needed */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Remove the pseudo-element and inner span styles related to the old underline method */
+#game-screen .objective-words .word-underline::after {
+    content: none; /* Remove the pseudo-element underline */
+}
+
+#game-screen .objective-words .word-underline span {
+    /* Remove or adjust styles for the inner span if it was used */
+    color: inherit; /* Inherit color from parent */
+    position: static; /* Reset positioning */
+    z-index: auto; /* Reset z-index */
 }
 
 #game-screen .bubble-soup {
