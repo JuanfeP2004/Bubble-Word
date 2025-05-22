@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bubble Word</string>
+    <string name="title_activity_main">Bubble Word</string>
+    <string name="package_name">com.upb.bubbleword</string>
+    <string name="custom_url_scheme">com.upb.bubbleword</string>
+</resources>

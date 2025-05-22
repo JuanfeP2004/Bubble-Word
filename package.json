@@ -15,5 +15,10 @@
   "description": "",
   "devDependencies": {
     "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0"
   }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
-    <string name="app_name">bubbleword</string>
+    <string name="app_name">Bubble Word</string>
     <string name="custom_url_scheme">com.upb.bubbleword</string>
     <string name="package_name">com.upb.bubbleword</string>
-    <string name="title_activity_main">bubbleword</string>
+    <string name="title_activity_main">Bubble Word</string>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         
         <item name="colorPrimary">@color/colorPrimary</item>
