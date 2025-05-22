@@ -9,15 +9,12 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Background Canvas -->
     <canvas id="backgroundCanvas"></canvas>
 
-    <!-- Splash Screen -->
     <div id="splash-screen">
         <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
     </div>
 
-    <!-- Main Menu Screen -->
     <div id="main-screen" style="display: none;">
         <section id="screen-inicio">
             <div class="content-wrapper">
@@ -35,33 +32,49 @@
         </section>
     </div>
 
-    <!-- Game Screen -->
     <div id="game-screen" style="display: none;">
         <section id="screen-juego">
             <div class="head-game">
                 <div class="game-info">
-                    <div class="time-container" style="display: flex; align-items: center; gap: 12px;">
-                        <div class="time-text">
-                            <p class="time" style="margin:0;">
-                                Tiempo <span id="time-number" class="time-number">30s</span>
-                            </p>
+                    <div class="timer-points-container">
+                        <div class="timer-container">
+                            <p class="time-text">Tiempo:</p>
+                            <div class="timer-display">
+                                <canvas id="hourglassCanvas" width="30" height="40"></canvas>
+                                <span id="time-number">20s</span>
+                            </div>
                         </div>
-                        <canvas id="hourglass" width="32" height="48" style="vertical-align: middle;"></canvas>
-                    </div>
-                    <div class="points-container">
-                        <p class="points-text">Puntos:</p>
-                        <p class="points-number">0</p>
+                        <div class="points-container">
+                            <p class="points-text">Puntos:</p>
+                            <p class="points-number">0</p>
+                        </div>
                     </div>
                 </div>
                 <img class="game-photo" src="" alt="">
             </div>
-            <h2 class="objetive-text">Escriba la palabra</h2>
-            <div class="objective-words"></div>
-            <div class="bubble-soup"></div>
+            
+            <!-- Contenedor para el texto del objetivo y el botón de recarga -->
+            <div class="objective-text-container">
+                <h2 class="objetive-text">Escribe la palabra</h2>
+                <!-- Botón de Recarga -->
+                
+            </div>
+
+            <!-- Contenedor solo para la visualización de la palabra -->
+            <div class="word-display-container">
+                <div class="word-display" id="word-display"></div>
+            </div>
+            
+            <!-- Mensaje de Feedback -->
+            <div id="feedback-message" class="feedback-message"></div>
+
+            <div class="bubble-soup">
+                <!-- Bubbles will be generated here by JavaScript -->
+            </div>
+
         </section>
     </div>
 
-    <!-- Options Screen -->
     <div id="options-screen" style="display: none;">
         <section id="screen-opciones">
             <h1 class="title">OPCIONES</h1>
@@ -91,7 +104,6 @@
         </section>
     </div>
 
-    <!-- Score Screen -->
     <div id="score-screen" style="display: none;">
         <section id="screen-puntuacion">
             <h1 class="title">MEJORES JUEGOS</h1>
@@ -100,25 +112,27 @@
         </section>
     </div>
 
-    <!-- Scripts -->
+    <!-- Cargar scripts en orden -->
+    <script src="js/data/listwords.js"></script>
     <script src="js/utils/reloj.js"></script>
+    <script src="js/utils/opciones.js"></script>
+    <script src="js/classes/game.js"></script>
+    <script src="js/utils/navegation.js"></script>
     <script src="js/background.js"></script>
-    <script src="js/main.js" type="module"></script>
-    <script type="module">
-        import Navegacion from './js/utils/navegation.js';
-        import Reloj from './js/utils/reloj.js';
-        import { game } from './js/main.js';
-        // import { startWordRain } from './js/background.js'; // No longer needed as functions are global
-        
-        // Handle initial splash screen and navigation setup
-        setTimeout(() => {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('main-screen').style.display = 'block';
-            
-            // Initialize navigation after splash screen is hidden
-            const navegacion = new Navegacion(game);
-            navegacion.paginaInicial();
-        }, 2000);
+    <script>
+        // Inicializar el juego cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar pantalla principal después del splash
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-screen').style.display = 'block';
+                
+                // Crear instancia del juego e inicializar navegación AHORA
+                window.game = new Game();
+                window.navegacion = new Navegacion(window.game);
+                window.navegacion.paginaInicial();
+            }, 2000);
+        });
     </script>
 </body>
 </html>

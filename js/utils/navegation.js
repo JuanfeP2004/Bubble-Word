@@ -1,11 +1,4 @@
-import Reloj from './reloj.js';
-import Game from '../classes/game';
-
 class Navegacion {
-    paginas = [];
-    reloj = null;
-    game = null;
-
     constructor(game) {
         this.game = game;
         this.paginas = [
@@ -18,72 +11,40 @@ class Navegacion {
         this.reloj = new Reloj('time-number', 'hourglass', 30);
         this.game.setReloj(this.reloj);
 
-        const startButton = document.getElementById('startButton');
-        const optionsButton = document.getElementById('optionsButton');
-        const scoreButton = document.getElementById('scoreButton');
+        this.setupEventListeners();
+    }
 
-        if (startButton) startButton.addEventListener('click', () => this.cambiarPagina('screen-juego'));
-        if (optionsButton) optionsButton.addEventListener('click', () => this.cambiarPagina('screen-opciones'));
-        if (scoreButton) scoreButton.addEventListener('click', () => this.cambiarPagina('screen-puntuacion'));
+    setupEventListeners() {
+        document.getElementById('startButton').addEventListener('click', () => this.showPage('screen-juego'));
+        document.getElementById('optionsButton').addEventListener('click', () => this.showPage('screen-opciones'));
+        document.getElementById('scoreButton').addEventListener('click', () => this.showPage('screen-puntuacion'));
+        
+        document.querySelectorAll('.navButton').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetPage = button.getAttribute('data-page');
+                this.showPage(targetPage);
+            });
+        });
+    }
+
+    showPage(pageId) {
+        const pages = ['screen-inicio', 'screen-juego', 'screen-opciones', 'screen-puntuacion'];
+        pages.forEach(page => {
+            const element = document.getElementById(page);
+            if (element) {
+                element.style.display = page === pageId ? 'block' : 'none';
+            }
+        });
+
+        if (pageId === 'screen-juego') {
+            this.game.startGame();
+        }
     }
 
     paginaInicial() {
-        this.paginas.forEach(pagina => {
-            if (pagina.nombre === 'screen-inicio') {
-                pagina.ref.style.display = 'block';
-                if (window.startWordRain) {
-                    window.startWordRain(); 
-                }
-            } else {
-                pagina.ref.style.display = 'none';
-            }
-        });
-    }
-
-    cambiarPagina(parametro, evento = null) {
-        if (evento) evento.preventDefault();
-
-        let paginaActual = this.paginas.find(pagina => pagina.ref.style.display === 'block');
-
-        if (paginaActual && paginaActual.nombre === 'screen-inicio') {
-            if (window.stopWordRain) {
-                window.stopWordRain();
-            }
-        }
-
-        this.paginas.forEach(pagina => {
-            if (pagina.nombre === parametro) {
-                pagina.ref.style.display = 'block';
-
-                if (pagina.nombre === 'screen-inicio') {
-                    if (window.startWordRain) {
-                        window.startWordRain();
-                    }
-                }
-
-                if (pagina.nombre === 'screen-juego') {
-                    this.reloj.start();
-                    this.game.GetWordObject();
-
-                    const objectiveWordsContainer = document.querySelector('.objective-words');
-                    if (objectiveWordsContainer) {
-                        objectiveWordsContainer.innerHTML = '';
-                        for (let i = 0; i < this.game.actual_word.length; i++) {
-                            const underline = document.createElement('span');
-                            underline.classList.add('word-underline');
-                            objectiveWordsContainer.appendChild(underline);
-                        }
-                    }
-                }
-            } else {
-                pagina.ref.style.display = 'none';
-            }
-        });
-        
-        if (paginaActual && paginaActual.nombre === 'screen-juego' && parametro !== 'screen-juego') {
-            this.reloj.reset();
-        }
+        this.showPage('screen-inicio');
     }
 }
 
-export default Navegacion;
+window.Navegacion = Navegacion;
