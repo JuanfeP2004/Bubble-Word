@@ -34,7 +34,6 @@ class PuntuacionesScreen {
                 <th>Posición</th>
                 <th>Puntuación</th>
                 <th>Dificultad</th>
-                <th>Fecha</th>
             </tr>
         `;
         table.appendChild(thead);
@@ -47,7 +46,6 @@ class PuntuacionesScreen {
                 <td>${index + 1}</td>
                 <td>${score.score}</td>
                 <td>${this.getDifficultyName(score.gridSize)}</td>
-                <td>${new Date(score.date).toLocaleDateString()}</td>
             `;
             tbody.appendChild(row);
         });

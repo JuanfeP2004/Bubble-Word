@@ -13,7 +13,7 @@ class Navegacion {
         const startButton = document.getElementById('startButton');
         const optionsButton = document.getElementById('optionsButton');
         const scoreButton = document.getElementById('scoreButton');
-        const backButtons = document.querySelectorAll('.navButton[data-page="screen-inicio"]');
+        const backButtons = document.querySelectorAll('.navButton[data-page="main-screen"], .navButton[data-page="screen-inicio"]');
 
         if (startButton) {
             startButton.addEventListener('click', () => this.showGameScreen());

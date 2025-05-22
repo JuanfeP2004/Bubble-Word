@@ -13,11 +13,11 @@ class Game {
             'casa.jpg', 'fresa.jpg', 'libro.jpg', 'luna.jpg', 'playa.jpg',
             'rosa.jpg', 'silla.jpg', 'caja.jpg', 'auto.jpg', 'avion.jpg', 'arbol.jpg'
         ];
-        this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
         this.wordDisplay = document.getElementById('word-display');
         this.gamePhotoElement = document.querySelector('.game-photo');
         this.feedbackMessageElement = document.getElementById('feedback-message');
         this.initializeGame();
+        this.initClock();
     }
 
     initializeGame() {
@@ -51,6 +51,12 @@ class Game {
         }
     }
 
+    initClock() {
+        this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit, () => {
+            this.showEndGameScreen();
+        });
+    }
+
     startGame() {
         this.isPlaying = true;
         this.score = 0;
@@ -58,7 +64,8 @@ class Game {
         this.loadRandomImage();
         this.selectWordFromImage();
         this.createGrid();
-        this.startTimer();
+        this.initClock();
+        this.clock.start();
     }
 
     loadRandomImage() {
@@ -298,39 +305,12 @@ class Game {
         document.querySelector('.points-number').textContent = this.score;
     }
 
-    startTimer() {
-        this.clock.reset();
-        this.clock.start();
-        
-        const gameTimerCheck = setInterval(() => {
-            if (!this.isPlaying) {
-                clearInterval(gameTimerCheck);
-                this.clock.stop();
-            }
-        }, 1000);
-    }
-
-    endGame() {
+    showEndGameScreen() {
         this.isPlaying = false;
-        this.clock.stop();
-        this.saveScore();
-        this.showGameOver();
-    }
-
-    saveScore() {
-        const bestGames = JSON.parse(localStorage.getItem('bestGames') || '[]');
-        bestGames.push({
-            score: this.score,
-            date: new Date().toLocaleDateString()
-        });
-        bestGames.sort((a, b) => b.score - a.score);
-        localStorage.setItem('bestGames', JSON.stringify(bestGames.slice(0, 5)));
-    }
-
-    showGameOver() {
         document.getElementById('game-screen').style.display = 'none';
-        document.getElementById('main-screen').style.display = 'block';
-        this.loadBestGames();
+        document.getElementById('endgame-screen').style.display = 'block';
+        document.getElementById('final-score').textContent = this.score;
+        document.getElementById('player-name').value = '';
     }
 
     loadBestGames() {

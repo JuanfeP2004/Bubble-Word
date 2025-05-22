@@ -112,6 +112,23 @@
         </section>
     </div>
 
+    <div id="endgame-screen" style="display: none;">
+        <section id="screen-finpartida" class="endgame-section">
+            <h1 class="endgame-title">HAS</h1>
+            <h1 class="endgame-title">PERDIDO</h1>
+            <p class="endgame-subtitle">Puntaje Final:</p>
+            <div id="final-score" class="endgame-score">0</div>
+            <form id="endgame-form" class="endgame-form">
+                <input id="player-name" class="endgame-input" type="text" placeholder="Tu nombre" required maxlength="20">
+                <button type="submit" class="endgame-btn endgame-btn-send">ENVIAR</button>
+            </form>
+            <div class="endgame-btn-group">
+                <button id="retry-button" class="endgame-btn">REINTENTAR</button>
+                <button id="exit-button" class="endgame-btn">SALIR</button>
+            </div>
+        </section>
+    </div>
+
     <!-- Cargar scripts en orden -->
     <script src="js/data/listwords.js"></script>
     <script src="js/utils/reloj.js"></script>
@@ -143,6 +160,48 @@
                 // Mostrar la pantalla inicial
                 window.navegacion.paginaInicial();
             }, 2000);
+
+            // Lógica para la pantalla de fin de partida
+            const endgameForm = document.getElementById('endgame-form');
+            const retryButton = document.getElementById('retry-button');
+            const exitButton = document.getElementById('exit-button');
+
+            if (endgameForm) {
+                endgameForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('player-name').value.trim();
+                    const score = parseInt(document.getElementById('final-score').textContent, 10);
+                    if (name && !isNaN(score)) {
+                        // Guardar en localStorage (usando el formato de puntuaciones.js)
+                        let scores = JSON.parse(localStorage.getItem('gameScores')) || [];
+                        scores.push({
+                            name: name,
+                            score: score,
+                            gridSize: window.game.gridSize,
+                            date: new Date().toISOString()
+                        });
+                        localStorage.setItem('gameScores', JSON.stringify(scores));
+                        // Solo actualizar la tabla de puntuaciones si existe
+                        if (window.puntuacionesScreen && typeof window.puntuacionesScreen.loadScores === 'function') {
+                            window.puntuacionesScreen.loadScores();
+                        }
+                        // No cambiar de pantalla
+                    }
+                });
+            }
+            if (retryButton) {
+                retryButton.addEventListener('click', function() {
+                    document.getElementById('endgame-screen').style.display = 'none';
+                    document.getElementById('game-screen').style.display = 'block';
+                    window.game.startGame();
+                });
+            }
+            if (exitButton) {
+                exitButton.addEventListener('click', function() {
+                    document.getElementById('endgame-screen').style.display = 'none';
+                    document.getElementById('main-screen').style.display = 'block';
+                });
+            }
         });
     </script>
 </body>

@@ -1,5 +1,5 @@
 class Reloj {
-    constructor(timeElementId, canvasElementId, initialTimeInSeconds) {
+    constructor(timeElementId, canvasElementId, initialTimeInSeconds, onTimeEnd) {
         this.timeElement = document.getElementById(timeElementId);
         this.canvas = document.getElementById(canvasElementId);
         if (this.canvas) {
@@ -14,6 +14,7 @@ class Reloj {
         this.timeLeft = initialTimeInSeconds;
         this.timerInterval = null;
         this.isRunning = false;
+        this.onTimeEnd = onTimeEnd;
     }
 
     start() {
@@ -31,6 +32,9 @@ class Reloj {
 
             if (this.timeLeft <= 0) {
                 this.stop();
+                if (typeof this.onTimeEnd === 'function') {
+                    this.onTimeEnd();
+                }
             }
         }, 1000);
     }
