@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Word</title>
+    <link rel="shortcut icon" href="/assets/BubbleWordLogo-rYABPhTl.ico">
+  <link rel="stylesheet" crossorigin href="/assets/index-DVEF3P9-.css">
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+
+    <div id="splash-screen">
+        <img src="/assets/BubbleWordLogo-rYABPhTl.ico" alt="Bubble Word Logo" class="splash-logo">
+    </div>
+
+    <div id="main-screen" style="display: none;">
+        <section id="screen-inicio">
+            <div class="content-wrapper">
+                <!-- Logo -->
+                <img src="/assets/BubbleWordLogo-rYABPhTl.ico" alt="Bubble Word Logo" class="main-logo">
+                <h1 class="tittle">Bubble Word</h1>
+                <button class="button" id="startButton">Jugar</button>
+                <button class="button" id="optionsButton">Opciones</button>
+                <button class="button" id="scoreButton">Puntuaciones</button>
+                <button class="button" id="instructionsButton">Instrucciones</button>
+            </div>
+            <div class="credits-wrapper">
+                <p class="credits-title">CREDITOS</p>
+                <span class="bigtext">Juan Felipe Ramirez</span>
+                <span class="bigtext">Andres Felipe Saenz</span>
+                <span class="bigtext">Victor Alfonso Martinez</span>
+            </div>
+        </section>
+    </div>
+
+    <div id="game-screen" style="display: none;">
+        <section id="screen-juego">
+            <div class="head-game">
+                <div class="game-info">
+                    <div class="timer-points-container">
+                        <div class="timer-container">
+                            <p class="time-text">Tiempo:</p>
+                            <div class="timer-display">
+                                <canvas id="hourglassCanvas" width="30" height="40"></canvas>
+                                <span id="time-number">20s</span>
+                            </div>
+                        </div>
+                        <div class="points-container">
+                            <p class="points-text">Puntos:</p>
+                            <p class="points-number">0</p>
+                        </div>
+                    </div>
+                </div>
+                <img class="game-photo" src="" alt="">
+                <!-- Botón para volver al menú principal -->
+                <button id="back-to-menu" class="button menu-top-left">Menú Principal</button>
+            </div>
+            
+            <!-- Contenedor para el texto del objetivo y el botón de recarga -->
+            <div class="objective-text-container">
+                <h2 class="objetive-text">Escribe la palabra</h2>
+            </div>
+
+            <!-- Contenedor solo para la visualización de la palabra -->
+            <div class="word-display-container">
+                <div class="word-display" id="word-display"></div>
+            </div>
+            
+            <!-- Botón de Pista debajo de la palabra -->
+            <button id="hint-button" class="button hint-btn">Pista (-200)</button>
+
+            <!-- Mensaje de Feedback -->
+            <div id="feedback-message" class="feedback-message"></div>
+
+            <div class="bubble-soup">
+                <!-- Bubbles will be generated here by JavaScript -->
+            </div>
+
+        </section>
+    </div>
+
+    <div id="options-screen" style="display: none;">
+        <section id="screen-opciones">
+            <h1 class="title">OPCIONES</h1>
+            <h2 class="subtitle">DIFICULTAD</h2>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">FACIL</p>
+                    <p class="dificulty-time">00:30</p>
+                </div>
+                <p class="grid-size">5x5</p>
+            </div>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">NORMAL</p>
+                    <p class="dificulty-time">00:20</p>
+                </div>
+                <p class="grid-size">7x7</p>
+            </div>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">DIFICIL</p>
+                    <p class="dificulty-time">00:10</p>
+                </div>
+                <p class="grid-size">9x9</p>
+            </div>
+            <a href="#" class="button navButton" data-page="main-screen">REGRESAR</a>
+        </section>
+    </div>
+
+    <div id="score-screen" style="display: none;">
+        <section id="screen-puntuacion">
+            <h1 class="title">MEJORES JUEGOS</h1>
+            <div class="bestgames-container"></div>
+            <a href="#" class="button navButton" data-page="main-screen">REGRESAR</a>
+        </section>
+    </div>
+
+    <div id="endgame-screen" style="display: none;">
+        <section id="screen-finpartida" class="endgame-section">
+            <h1 class="endgame-title">HAS</h1>
+            <h1 class="endgame-title">PERDIDO</h1>
+            <p class="endgame-subtitle">Puntaje Final:</p>
+            <div id="final-score" class="endgame-score">0</div>
+            <form id="endgame-form" class="endgame-form">
+                <input id="player-name" class="endgame-input" type="text" placeholder="Tu nombre" required maxlength="20">
+                <button type="submit" class="endgame-btn endgame-btn-send">ENVIAR</button>
+            </form>
+            <div class="endgame-btn-group">
+                <button id="retry-button" class="endgame-btn">REINTENTAR</button>
+                <button id="exit-button" class="endgame-btn">SALIR</button>
+            </div>
+        </section>
+    </div>
+
+    <div id="instructions-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeInstructions">&times;</span>
+            <h2>Instrucciones</h2>
+            <p>
+                1. Haz clic en "Jugar" para comenzar una partida.<br>
+                2. Forma la palabra objetivo seleccionando las letras en las burbujas.<br>
+                3. Tienes un tiempo limitado para completar cada palabra.<br>
+                4. Gana puntos por cada palabra correcta.<br>
+                5. El juego termina cuando se acaba el tiempo.<br>
+                ¡Diviértete y trata de superar tu mejor puntuación!
+            </p>
+        </div>
+    </div>
+
+    <div id="easter-egg-modal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
+        <img id="easter-egg-img" src="/assets/1-BY0eNxzO.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
+    </div>
+
+    <!-- Cargar scripts en orden -->
+    <script src="js/data/listwords.js"></script>
+    <script src="js/utils/reloj.js"></script>
+    <script src="js/classes/opciones.js"></script>
+    <script src="js/classes/puntuaciones.js"></script>
+    <script src="js/classes/game.js"></script>
+    <script src="js/utils/navegation.js"></script>
+    <script src="js/background.js"></script>
+    <script>
+        // Inicializar el juego cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar pantalla principal después del splash
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-screen').style.display = 'block';
+                
+                // Crear instancia del juego e inicializar navegación
+                window.game = new Game();
+                window.navegacion = new Navegacion(window.game);
+
+                // Crear instancias de las pantallas
+                window.opcionesScreen = new OpcionesScreen(window.game);
+                window.puntuacionesScreen = new PuntuacionesScreen(window.game);
+
+                // Inicializar las pantallas
+                window.opcionesScreen.init();
+                window.puntuacionesScreen.init();
+
+                // Mostrar la pantalla inicial
+                window.navegacion.paginaInicial();
+            }, 2000);
+
+            // Lógica para la pantalla de fin de partida
+            const endgameForm = document.getElementById('endgame-form');
+            const retryButton = document.getElementById('retry-button');
+            const exitButton = document.getElementById('exit-button');
+
+            if (endgameForm) {
+                endgameForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('player-name').value.trim();
+                    const score = parseInt(document.getElementById('final-score').textContent, 10);
+                    if (name && !isNaN(score)) {
+                        // Guardar en localStorage (usando el formato de puntuaciones.js)
+                        let scores = JSON.parse(localStorage.getItem('gameScores')) || [];
+                        scores.push({
+                            name: name,
+                            score: score,
+                            gridSize: window.game.gridSize,
+                            date: new Date().toISOString()
+                        });
+                        localStorage.setItem('gameScores', JSON.stringify(scores));
+                        // Solo actualizar la tabla de puntuaciones si existe
+                        if (window.puntuacionesScreen && typeof window.puntuacionesScreen.loadScores === 'function') {
+                            window.puntuacionesScreen.loadScores();
+                        }
+                        // No cambiar de pantalla
+                    }
+                });
+            }
+            if (retryButton) {
+                retryButton.addEventListener('click', function() {
+                    document.getElementById('endgame-screen').style.display = 'none';
+                    document.getElementById('game-screen').style.display = 'block';
+                    window.game.startGame();
+                });
+            }
+            if (exitButton) {
+                exitButton.addEventListener('click', function() {
+                    document.getElementById('endgame-screen').style.display = 'none';
+                    document.getElementById('main-screen').style.display = 'block';
+                });
+            }
+
+            // Botón para volver al menú principal desde el juego
+            const backToMenuBtn = document.getElementById('back-to-menu');
+            if (backToMenuBtn) {
+                backToMenuBtn.addEventListener('click', function() {
+                    document.getElementById('game-screen').style.display = 'none';
+                    document.getElementById('main-screen').style.display = 'block';
+                    if (window.game && typeof window.game.endGame === 'function') {
+                        window.game.endGame(); // Si tienes lógica para pausar o terminar el juego
+                    }
+                });
+            }
+
+            // Instrucciones modal
+            const instructionsBtn = document.getElementById('instructionsButton');
+            const instructionsModal = document.getElementById('instructions-modal');
+            const closeInstructions = document.getElementById('closeInstructions');
+
+            if (instructionsBtn && instructionsModal && closeInstructions) {
+                instructionsBtn.addEventListener('click', function() {
+                    instructionsModal.style.display = 'block';
+                });
+                closeInstructions.addEventListener('click', function() {
+                    instructionsModal.style.display = 'none';
+                });
+                window.addEventListener('click', function(event) {
+                    if (event.target === instructionsModal) {
+                        instructionsModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // Botón de Pista
+            const hintButton = document.getElementById('hint-button');
+            if (hintButton) {
+                hintButton.addEventListener('click', function() {
+                    if (window.game && typeof window.game.useHint === 'function') {
+                        window.game.useHint();
+                    }
+                });
+            }
+
+            // Easter Egg: mostrar imagen al hacer clic en el logo del menú principal
+            const mainLogo = document.querySelector('#main-screen .main-logo');
+            const easterEggModal = document.getElementById('easter-egg-modal');
+            let easterEggAudio = null;
+
+            if (mainLogo && easterEggModal) {
+                mainLogo.addEventListener('click', function() {
+                    easterEggModal.style.display = 'flex';
+                    // Reproducir sonido
+                    easterEggAudio = new Audio('sonido/Halo.mp3');
+                    easterEggAudio.play();
+                });
+                easterEggModal.addEventListener('click', function() {
+                    easterEggModal.style.display = 'none';
+                    // Detener sonido
+                    if (easterEggAudio) {
+                        easterEggAudio.pause();
+                        easterEggAudio.currentTime = 0;
+                        easterEggAudio = null;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
