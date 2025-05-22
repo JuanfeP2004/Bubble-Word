@@ -1,24 +1,20 @@
 // Esperar a que el DOM esté completamente cargado antes de inicializar
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('backgroundCanvas');
-    // Verificar si el canvas se encontró correctamente
     if (!canvas) {
-        return; // Salir si no se encuentra el canvas
+        return;
     }
     
     const ctx = canvas.getContext('2d');
-    // Verificar si el contexto 2D se obtuvo correctamente
     if (!ctx) {
-        return; // Salir si no se obtiene el contexto
+        return;
     }
 
-    // Set canvas size to window size
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
 
-    // Initial resize
     resizeCanvas();
 
     const letters = 'BUBBLEWORDGAMEPLAYFUN'; 
@@ -30,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return colors[Math.floor(Math.random() * colors.length)];
     }
 
-    // Initialize drops array
     let drops = [];
 
     function initializeDrops() {
@@ -42,14 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     }
 
-    // Initial drops setup
     initializeDrops();
 
     function draw() {
-        // Verificar si el contexto es válido antes de dibujar
         if (!ctx) return;
 
-        // Clear the canvas in each frame instead of drawing a semi-transparent background
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         ctx.font = `bold ${fontSize}px Arial`;
@@ -69,7 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Funciones exportadas globalmente para controlar la animación
     window.startWordRain = function() {
         if (!animationInterval) {
             resizeCanvas();
@@ -82,12 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (animationInterval) {
             clearInterval(animationInterval);
             animationInterval = null;
-            // Clear the canvas when stopping animation
             if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
         }
     };
 
-    // Handle window resize
     window.addEventListener('resize', () => {
         resizeCanvas();
         initializeDrops();
@@ -98,5 +87,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // The word rain animation will be started by the navigation script
-
-}); // End of DOMContentLoaded listener
+});
