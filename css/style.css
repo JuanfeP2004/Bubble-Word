@@ -906,3 +906,39 @@ body {
     width: fit-content;
     box-sizing: border-box;
 }
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    overflow: auto;
+    background: rgba(0,0,0,0.5);
+}
+.modal-content {
+    background: #fff;
+    color: #222;
+    margin: 8% auto;
+    padding: 24px 32px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    position: relative;
+    text-align: left;
+}
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+}
+.close-modal:hover {
+    color: #e53935;
+}
+}

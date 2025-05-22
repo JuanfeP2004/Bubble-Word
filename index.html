@@ -22,6 +22,7 @@
                 <button class="button" id="startButton">Jugar</button>
                 <button class="button" id="optionsButton">Opciones</button>
                 <button class="button" id="scoreButton">Puntuaciones</button>
+                <button class="button" id="instructionsButton">Instrucciones</button>
             </div>
             <div class="credits-wrapper">
                 <p class="credits-title">CREDITOS</p>
@@ -131,6 +132,21 @@
         </section>
     </div>
 
+    <div id="instructions-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal" id="closeInstructions">&times;</span>
+            <h2>Instrucciones</h2>
+            <p>
+                1. Haz clic en "Jugar" para comenzar una partida.<br>
+                2. Forma la palabra objetivo seleccionando las letras en las burbujas.<br>
+                3. Tienes un tiempo limitado para completar cada palabra.<br>
+                4. Gana puntos por cada palabra correcta.<br>
+                5. El juego termina cuando se acaba el tiempo.<br>
+                ¡Diviértete y trata de superar tu mejor puntuación!
+            </p>
+        </div>
+    </div>
+
     <!-- Cargar scripts en orden -->
     <script src="js/data/listwords.js"></script>
     <script src="js/utils/reloj.js"></script>
@@ -213,6 +229,25 @@
                     document.getElementById('main-screen').style.display = 'block';
                     if (window.game && typeof window.game.endGame === 'function') {
                         window.game.endGame(); // Si tienes lógica para pausar o terminar el juego
+                    }
+                });
+            }
+
+            // Instrucciones modal
+            const instructionsBtn = document.getElementById('instructionsButton');
+            const instructionsModal = document.getElementById('instructions-modal');
+            const closeInstructions = document.getElementById('closeInstructions');
+
+            if (instructionsBtn && instructionsModal && closeInstructions) {
+                instructionsBtn.addEventListener('click', function() {
+                    instructionsModal.style.display = 'block';
+                });
+                closeInstructions.addEventListener('click', function() {
+                    instructionsModal.style.display = 'none';
+                });
+                window.addEventListener('click', function(event) {
+                    if (event.target === instructionsModal) {
+                        instructionsModal.style.display = 'none';
                     }
                 });
             }
