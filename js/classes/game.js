@@ -65,60 +65,37 @@ class Game {
         let imagesForDifficulty = [];
         switch (this.difficulty) {
             case 'facil':
-                imagesForDifficulty = this.images; // Currently, this.images only has easy images
+                imagesForDifficulty = this.images;
                 break;
             case 'normal':
-                // In a real scenario, you would load images from the 'medium' folder here.
-                // For now, let's assume this.images will contain all images or fetch from correct folder.
-                 console.warn('Loading images for normal difficulty - ensure correct image list is loaded.');
-                 // Placeholder: If this.images contained all, filter or load medium specific
                  imagesForDifficulty = this.images.filter(img => 
                      words.medium.includes(img.replace('.jpg', '').toUpperCase()));
-                // If images are not preloaded or available in this.images, fetch dynamically:
-                // fetch('img/words/medium').then(...).then(mediumImages => imagesForDifficulty = mediumImages); 
-                // For this example, assuming this.images has all or we fetch medium specific
                  if (imagesForDifficulty.length === 0 && this.images.length > 0) {
-                     // Fallback or adjust if this.images doesn't contain medium words
-                     console.warn('Medium images not found in current list, using easy images as fallback.');
-                     imagesForDifficulty = this.images; // Fallback to easy if medium not found
+                     imagesForDifficulty = this.images;
                  }
                 break;
             case 'dificil':
-                // Similar to normal, load images from 'hard' folder.
-                 console.warn('Loading images for dificil difficulty - ensure correct image list is loaded.');
-                 // Placeholder: If this.images contained all, filter or load hard specific
                  imagesForDifficulty = this.images.filter(img => 
                      words.hard.includes(img.replace('.jpg', '').toUpperCase()));
-                 // If images are not preloaded or available in this.images, fetch dynamically:
-                 // fetch('img/words/hard').then(...).then(hardImages => imagesForDifficulty = hardImages); 
-                 // For this example, assuming this.images has all or we fetch hard specific
                  if (imagesForDifficulty.length === 0 && this.images.length > 0) {
-                     // Fallback or adjust if this.images doesn't contain hard words
-                     console.warn('Hard images not found in current list, using easy images as fallback.');
-                     imagesForDifficulty = this.images; // Fallback to easy if hard not found
+                     imagesForDifficulty = this.images;
                  }
                 break;
         }
 
-        // Ensure we have images to select from
         if (imagesForDifficulty.length === 0) {
-            console.error('No images available for selected difficulty.');
-            // Potentially handle this error, e.g., revert to default difficulty or show error message
             return;
         }
 
         const randomImage = imagesForDifficulty[Math.floor(Math.random() * imagesForDifficulty.length)];
         this.gamePhotoElement.src = `img/words/${this.difficulty === 'facil' ? 'easy' : this.difficulty}/${randomImage}`;
-        // Set alt text to filename without extension - this will be the word to guess
-        this.gamePhotoElement.alt = randomImage.replace('.jpg', '').toUpperCase(); // Use uppercase for consistency
+        this.gamePhotoElement.alt = randomImage.replace('.jpg', '').toUpperCase();
     }
 
     selectWordFromImage() {
-        // Get the word directly from the alt text of the loaded image
         this.currentWord = this.gamePhotoElement.alt;
-        // Ensure the word is in uppercase for consistency with listwords.js
         this.currentWord = this.currentWord.toUpperCase();
-        this.displayWordProgress(); // Display underscores based on this word
+        this.displayWordProgress();
     }
 
     displayWordProgress() {
@@ -160,26 +137,25 @@ class Game {
 
     getRandomBubbleColor() {
         const colors = [
-            '#FF6F61', // Coral
-            '#6B5B95', // Lavender
-            '#88B04B', // Green
-            '#F7CAC9', // Pink
-            '#92A8D1', // Light Blue
-            '#B565A7', // Purple
-            '#009B77', // Emerald
-            '#DD4124', // Red
-            '#45B8AC', // Turquoise
-            '#EFC050', // Yellow
-            '#5B53DA', // Blue
-            '#FF9E7D', // Peach
-            '#98B4D4', // Sky Blue
-            '#C3447A', // Magenta
-            '#88B04B'  // Green
+            '#FF6F61',
+            '#6B5B95',
+            '#88B04B',
+            '#F7CAC9',
+            '#92A8D1',
+            '#B565A7',
+            '#009B77',
+            '#DD4124',
+            '#45B8AC',
+            '#EFC050',
+            '#5B53DA',
+            '#FF9E7D',
+            '#98B4D4',
+            '#C3447A',
+            '#88B04B'
         ];
         
         const randomBaseColor = colors[Math.floor(Math.random() * colors.length)];
         
-        // Convert hex to RGBA and RGB
         const hexToRgba = (hex, alpha) => {
             const r = parseInt(hex.slice(1, 3), 16);
             const g = parseInt(hex.slice(3, 5), 16);
@@ -187,7 +163,7 @@ class Game {
             return { rgba: `rgba(${r}, ${g}, ${b}, ${alpha})`, rgb: `${r}, ${g}, ${b}` };
         };
         
-        return hexToRgba(randomBaseColor, 0.6); // 60% opacity
+        return hexToRgba(randomBaseColor, 0.6);
     }
 
     shuffleArray(array) {
@@ -214,21 +190,19 @@ class Game {
         if (!this.isPlaying || bubble.classList.contains('selected') || bubble.classList.contains('exploding')) return;
         
         if (this.selectedLetters.length < this.currentWord.length) {
-            // Añadir mini-burbujas
-            const numberOfMiniBubbles = 8; // Puedes ajustar la cantidad
+            const numberOfMiniBubbles = 8;
             for (let i = 0; i < numberOfMiniBubbles; i++) {
                 const miniBubble = document.createElement('div');
                 miniBubble.className = 'mini-bubble';
                 
-                // Calcular posición y dirección aleatoria para las mini-burbujas
-                const angle = (i / numberOfMiniBubbles) * 2 * Math.PI; // Ángulo para distribuir las burbujas
-                const spreadDistance = 40; // Distancia a la que se separan las mini-burbujas
-                const x = spreadDistance * Math.cos(angle) + (Math.random() - 0.5) * 10; // Añadir un poco de aleatoriedad
+                const angle = (i / numberOfMiniBubbles) * 2 * Math.PI;
+                const spreadDistance = 40;
+                const x = spreadDistance * Math.cos(angle) + (Math.random() - 0.5) * 10;
                 const y = spreadDistance * Math.sin(angle) + (Math.random() - 0.5) * 10;
                 
                 miniBubble.style.setProperty('--x', `${x}px`);
                 miniBubble.style.setProperty('--y', `${y}px`);
-                miniBubble.style.animationDelay = `${Math.random() * 0.2}s`; // Retraso aleatorio para un efecto más natural
+                miniBubble.style.animationDelay = `${Math.random() * 0.2}s`;
                 
                 bubble.appendChild(miniBubble);
             }
@@ -236,10 +210,11 @@ class Game {
             bubble.classList.add('exploding');
             bubble.style.pointerEvents = 'none';
             
-            // Eliminar la burbuja principal después de la animación
+            const popSound = new Audio('sonido/Efecto de sonido burbuja POP.mp3');
+            popSound.play();
+            
             bubble.addEventListener('animationend', () => {
-                // bubble.remove(); // Eliminado para dejar el espacio vacío
-            }, { once: true }); // Usar { once: true } para que el listener se elimine automáticamente
+            }, { once: true });
 
             this.selectedLetters.push(bubble);
             this.updateWordDisplay();
@@ -255,7 +230,6 @@ class Game {
     updateWordDisplay() {
         const letterContainers = this.wordDisplay.querySelectorAll('.word-letter-container');
 
-        // Clear all previously displayed letters above underscores
         letterContainers.forEach(container => {
             const selectedLetter = container.querySelector('.selected-word-letter');
             if (selectedLetter) {
@@ -263,7 +237,6 @@ class Game {
             }
         });
 
-        // Display selected letters in the order they were selected
         this.selectedLetters.forEach((selectedBubble, index) => {
             if (index < letterContainers.length) {
                 const selectedChar = selectedBubble.textContent;
@@ -276,65 +249,48 @@ class Game {
     }
 
     checkWord() {
-        // Only check the word if the number of selected letters matches the word length
         if (this.selectedLetters.length !== this.currentWord.length) {
-            return; // Do nothing if not enough letters are selected
+            return;
         }
 
-        // Construct the selected word from the selected bubbles in order
         const selectedWord = this.selectedLetters.map(bubble => bubble.textContent).join('');
 
         if (selectedWord === this.currentWord) {
-            console.log('Word Guessed!', this.currentWord);
             this.correctWords.push(this.currentWord);
-            this.score += 10; // Adjust scoring as needed
+            this.score += 500;
             this.updateScore();
-            // Clear feedback message
             this.feedbackMessageElement.textContent = '';
 
-            // Deselect bubbles and clear selected letters after a correct guess
             this.selectedLetters.forEach(bubble => bubble.classList.remove('selected'));
             this.selectedLetters = [];
 
-            // Start next round after a delay
             setTimeout(() => {
-                this.resetBubbleState(); // Reset bubbles before loading next word/grid
+                this.resetBubbleState();
                 this.loadRandomImage();
                 this.selectWordFromImage();
-                this.createGrid(); // createGrid will assign new colors and event listeners
+                this.createGrid();
                 this.clock.reset();
                 this.clock.start();
-            }, 1000); // 1 second delay for correct guess
+            }, 1000);
         } else {
-            console.log('Incorrect word.');
-            // Display incorrect word message
             this.feedbackMessageElement.textContent = 'Palabra incorrecta';
 
-            // Clear selected letters and word display after a delay on incorrect guess
             setTimeout(() => {
-                // Iterar sobre las letras seleccionadas incorrectamente y hacerlas reaparecer
                 this.selectedLetters.forEach(bubble => {
                     bubble.classList.remove('exploding');
                     
-                    // Eliminar solo las mini-burbujas
                     const miniBubbles = bubble.querySelectorAll('.mini-bubble');
                     miniBubbles.forEach(mini => mini.remove());
 
-                    bubble.style.opacity = 1; // Asegurar visibilidad
-                    bubble.style.pointerEvents = 'auto'; // Habilitar clics de nuevo
-                    // No añadir la clase 'selected' de nuevo aquí si queremos que los campos se limpien
-                    // bubble.classList.add('selected'); 
+                    bubble.style.opacity = 1;
+                    bubble.style.pointerEvents = 'auto';
                 });
 
-                // Limpiar la lista de letras seleccionadas ANTES de actualizar la visualización
                 this.selectedLetters = [];
-
-                // Limpiar la visualización de la palabra (los espacios)
-                this.updateWordDisplay(); 
+                this.updateWordDisplay();
                 
-                // Clear feedback message after delay
                 this.feedbackMessageElement.textContent = '';
-            }, 1000); // 1 second delay for incorrect guess feedback and message display
+            }, 1000);
         }
     }
 
@@ -413,11 +369,11 @@ class Game {
         this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
         
         if (this.isPlaying) {
-             this.resetBubbleState(); // Reset bubbles before loading new word/grid
-             this.loadRandomImage(); // Load new image
-             this.selectWordFromImage(); // Select new word from image
-             this.createGrid(); // Create new grid based on updated gridSize
-             this.clock.reset(); // Reset and start timer with new time limit
+             this.resetBubbleState();
+             this.loadRandomImage();
+             this.selectWordFromImage();
+             this.createGrid();
+             this.clock.reset();
              this.clock.start();
         } else {
              this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);

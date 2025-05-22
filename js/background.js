@@ -1,4 +1,4 @@
-const canvas = document.getElementById('backgroundCanvas');
+    const canvas = document.getElementById('backgroundCanvas');
 const ctx = canvas.getContext('2d');
 
 let drops = [];
@@ -21,10 +21,10 @@ function getRandomColor() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
 
 function createDrop() {
     const fontSize = FONT_SIZES[Math.floor(Math.random() * FONT_SIZES.length)];
@@ -37,7 +37,7 @@ function createDrop() {
         opacity: 0.8 + Math.random() * 0.2,
         fontSize: fontSize
     };
-}
+    }
 
 function initDrops() {
     drops = [];
@@ -53,30 +53,30 @@ function animate(currentTime) {
         return;
     }
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     if (currentTime - lastSpawnTime > SPAWN_INTERVAL && drops.length < MAX_DROPS) {
         drops.push(createDrop());
         lastSpawnTime = currentTime;
     }
-    
+
     drops.forEach((drop, index) => {
-        ctx.fillStyle = drop.color;
+            ctx.fillStyle = drop.color;
         ctx.globalAlpha = drop.opacity;
         ctx.font = `${drop.fontSize}px ${FONT_FAMILY}`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(drop.text, drop.x, drop.y);
-        
-        drop.y += drop.speed;
-        
+
+            drop.y += drop.speed;
+
         if (drop.y > canvas.height + 30) {
             drops.splice(index, 1);
-        }
-    });
+            }
+        });
     
     animationId = requestAnimationFrame(animate);
-}
+        }
 
 function startAnimation() {
     if (!animationId) {
@@ -92,7 +92,7 @@ function stopAnimation() {
         cancelAnimationFrame(animationId);
         animationId = null;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+        }
 }
 
 const observer = new MutationObserver((mutations) => {

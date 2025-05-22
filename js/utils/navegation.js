@@ -10,42 +10,25 @@ class Navegacion {
     }
 
     setupNavigation() {
-        // Botón Jugar
         const startButton = document.getElementById('startButton');
-        if (startButton) {
-            startButton.addEventListener('click', () => {
-                this.hideAllScreens();
-                this.gameScreen.style.display = 'block';
-                this.game.startGame();
-            });
-        }
-
-        // Botón Opciones
         const optionsButton = document.getElementById('optionsButton');
-        if (optionsButton) {
-            optionsButton.addEventListener('click', () => {
-                this.hideAllScreens();
-                this.optionsScreen.style.display = 'block';
-            });
-        }
-
-        // Botón Puntuaciones
         const scoreButton = document.getElementById('scoreButton');
-        if (scoreButton) {
-            scoreButton.addEventListener('click', () => {
-                this.hideAllScreens();
-                this.scoreScreen.style.display = 'block';
-            });
+        const backButtons = document.querySelectorAll('.navButton[data-page="screen-inicio"]');
+
+        if (startButton) {
+            startButton.addEventListener('click', () => this.showGameScreen());
         }
 
-        // Botones de Regresar
-        const backButtons = document.querySelectorAll('.navButton');
+        if (optionsButton) {
+            optionsButton.addEventListener('click', () => this.showOptionsScreen());
+        }
+
+        if (scoreButton) {
+            scoreButton.addEventListener('click', () => this.showScoreScreen());
+        }
+
         backButtons.forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.hideAllScreens();
-                this.mainScreen.style.display = 'block';
-            });
+            button.addEventListener('click', () => this.showMainScreen());
         });
     }
 
@@ -54,6 +37,22 @@ class Navegacion {
         this.gameScreen.style.display = 'none';
         this.optionsScreen.style.display = 'none';
         this.scoreScreen.style.display = 'none';
+    }
+
+    showGameScreen() {
+        this.hideAllScreens();
+        this.gameScreen.style.display = 'block';
+        this.game.startGame();
+    }
+
+    showOptionsScreen() {
+        this.hideAllScreens();
+        this.optionsScreen.style.display = 'block';
+    }
+
+    showScoreScreen() {
+        this.hideAllScreens();
+        this.scoreScreen.style.display = 'block';
     }
 
     showMainScreen() {

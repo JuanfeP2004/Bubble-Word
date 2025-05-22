@@ -2,14 +2,11 @@ class Reloj {
     constructor(timeElementId, canvasElementId, initialTimeInSeconds) {
         this.timeElement = document.getElementById(timeElementId);
         this.canvas = document.getElementById(canvasElementId);
-        console.log('Reloj: Looking for canvas with ID:', canvasElementId, ', found:', this.canvas);
         if (this.canvas) {
             this.ctx = this.canvas.getContext('2d');
-            console.log('Reloj: Got canvas context:', this.ctx);
             this.canvasWidth = this.canvas.width;
             this.canvasHeight = this.canvas.height;
         } else {
-            console.error('Reloj: Canvas element not found with ID:', canvasElementId);
             this.ctx = null;
         }
         
@@ -34,7 +31,6 @@ class Reloj {
 
             if (this.timeLeft <= 0) {
                 this.stop();
-                console.log("¡Tiempo terminado!");
             }
         }, 1000);
     }
@@ -61,12 +57,8 @@ class Reloj {
     }
 
     drawHourglass() {
-        if (!this.ctx) {
-            console.log('Reloj: Cannot draw, context is null.');
-            return;
-        }
+        if (!this.ctx) return;
 
-        console.log('Reloj: Drawing hourglass.');
         const ctx = this.ctx;
         const w = this.canvasWidth;
         const h = this.canvasHeight;
