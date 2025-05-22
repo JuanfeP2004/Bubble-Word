@@ -371,7 +371,6 @@ class Game {
     }
 
     useHint() {
-        // Encuentra la siguiente letra que falta en la palabra objetivo
         const wordDisplay = document.getElementById('word-display');
         const currentLetters = Array.from(wordDisplay.querySelectorAll('.selected-word-letter')).map(e => e.textContent);
         const targetWord = this.currentWord;
@@ -384,7 +383,13 @@ class Game {
                 break;
             }
         }
-        if (hintIndex === -1) return; // Ya está completa
+        // Si ya está completa la palabra o solo falta la última letra, deshabilita el botón y no hagas nada
+        const letrasFaltantes = targetWord.length - currentLetters.filter(l => l && l !== "").length;
+        const hintButton = document.getElementById('hint-button');
+        if (hintIndex === -1 || letrasFaltantes <= 1) {
+            if (hintButton) hintButton.disabled = true;
+            return;
+        }
 
         const hintLetter = targetWord[hintIndex];
 
@@ -410,8 +415,21 @@ class Game {
             this.points -= 200;
             document.querySelector('.points-number').textContent = this.points;
         }
+
+        // Si después de usar la pista solo queda una letra, deshabilita el botón
+        setTimeout(() => {
+            const updatedLetters = Array.from(wordDisplay.querySelectorAll('.selected-word-letter')).map(e => e.textContent);
+            const updatedFaltantes = targetWord.length - updatedLetters.filter(l => l && l !== "").length;
+            if (hintButton && updatedFaltantes <= 1) {
+                hintButton.disabled = true;
+            }
+        }, 100);
     }
 }
+
+// Al iniciar una nueva palabra
+const hintButton = document.getElementById('hint-button');
+if (hintButton) hintButton.disabled = false;
 
 window.Game = Game;
 
