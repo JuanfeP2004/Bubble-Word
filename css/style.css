@@ -962,4 +962,16 @@ body {
     background: linear-gradient(135deg, #ff5722, #ff9800);
     transform: translateY(-2px);
 }
+
+.main-logo {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    z-index: 10;
+}
+
 }
