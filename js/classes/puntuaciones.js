@@ -32,6 +32,7 @@ class PuntuacionesScreen {
         thead.innerHTML = `
             <tr>
                 <th>Posición</th>
+                <th>Nombre</th>
                 <th>Puntuación</th>
                 <th>Dificultad</th>
             </tr>
@@ -44,6 +45,7 @@ class PuntuacionesScreen {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${index + 1}</td>
+                <td>${score.name || 'Sin nombre'}</td>
                 <td>${score.score}</td>
                 <td>${this.getDifficultyName(score.gridSize)}</td>
             `;
@@ -86,4 +88,4 @@ class PuntuacionesScreen {
     }
 }
 
-window.PuntuacionesScreen = PuntuacionesScreen; 
+window.PuntuacionesScreen = PuntuacionesScreen;
