@@ -16,6 +16,7 @@ class Game {
         this.wordDisplay = document.getElementById('word-display');
         this.gamePhotoElement = document.querySelector('.game-photo');
         this.feedbackMessageElement = document.getElementById('feedback-message');
+        this.isActive = false; // Nueva bandera
         this.initializeGame();
         this.initClock();
     }
@@ -59,6 +60,7 @@ class Game {
 
     startGame() {
         this.isPlaying = true;
+        this.isActive = true;
         this.score = 0;
         this.updateScore();
         this.loadRandomImage();
@@ -66,6 +68,24 @@ class Game {
         this.createGrid();
         this.initClock();
         this.clock.start();
+    }
+
+    endGame() {
+        this.isActive = false;
+        this.isPlaying = false;
+        if (this.clock && typeof this.clock.stop === 'function') {
+            this.clock.stop();
+        }
+    }
+
+    onTimeOut() {
+        // Este método se llama cuando se acaba el tiempo
+        if (!this.isActive) return; // No hacer nada si el juego no está activo
+
+        // ...mostrar pantalla de "Perdiste"...
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('endgame-screen').style.display = 'block';
+        
     }
 
     loadRandomImage() {
@@ -306,6 +326,7 @@ class Game {
     }
 
     showEndGameScreen() {
+        if (!this.isActive) return; // <--- Solo muestra si el juego sigue activo
         this.isPlaying = false;
         document.getElementById('game-screen').style.display = 'none';
         document.getElementById('endgame-screen').style.display = 'block';
