@@ -59,8 +59,6 @@
             <!-- Contenedor para el texto del objetivo y el botón de recarga -->
             <div class="objective-text-container">
                 <h2 class="objetive-text">Escribe la palabra</h2>
-                <!-- Botón de Recarga -->
-                
             </div>
 
             <!-- Contenedor solo para la visualización de la palabra -->
@@ -68,6 +66,9 @@
                 <div class="word-display" id="word-display"></div>
             </div>
             
+            <!-- Botón de Pista debajo de la palabra -->
+            <button id="hint-button" class="button hint-btn">Pista (-200)</button>
+
             <!-- Mensaje de Feedback -->
             <div id="feedback-message" class="feedback-message"></div>
 
@@ -248,6 +249,16 @@
                 window.addEventListener('click', function(event) {
                     if (event.target === instructionsModal) {
                         instructionsModal.style.display = 'none';
+                    }
+                });
+            }
+
+            // Botón de Pista
+            const hintButton = document.getElementById('hint-button');
+            if (hintButton) {
+                hintButton.addEventListener('click', function() {
+                    if (window.game && typeof window.game.useHint === 'function') {
+                        window.game.useHint();
                     }
                 });
             }

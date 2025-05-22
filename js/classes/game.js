@@ -369,6 +369,49 @@ class Game {
             bubble.style.pointerEvents = 'auto';
         });
     }
+
+    useHint() {
+        // Encuentra la siguiente letra que falta en la palabra objetivo
+        const wordDisplay = document.getElementById('word-display');
+        const currentLetters = Array.from(wordDisplay.querySelectorAll('.selected-word-letter')).map(e => e.textContent);
+        const targetWord = this.currentWord;
+
+        // Busca el primer índice donde falta la letra
+        let hintIndex = -1;
+        for (let i = 0; i < targetWord.length; i++) {
+            if (!currentLetters[i] || currentLetters[i] === "") {
+                hintIndex = i;
+                break;
+            }
+        }
+        if (hintIndex === -1) return; // Ya está completa
+
+        const hintLetter = targetWord[hintIndex];
+
+        // Busca la burbuja con esa letra
+        const bubbles = document.querySelectorAll('.bubble');
+        let bubbleToClick = null;
+        for (let bubble of bubbles) {
+            if (bubble.textContent.trim().toUpperCase() === hintLetter.toUpperCase()) {
+                bubbleToClick = bubble;
+                break;
+            }
+        }
+        if (!bubbleToClick) return; // No hay burbuja disponible
+
+        // Simula el click en la burbuja (esto debería poner la letra y eliminar la burbuja)
+        bubbleToClick.click();
+
+        // Penaliza los puntos (permite puntaje negativo)
+        if (typeof this.score === 'number') {
+            this.score -= 200;
+            document.querySelector('.points-number').textContent = this.score;
+        } else if (typeof this.points === 'number') {
+            this.points -= 200;
+            document.querySelector('.points-number').textContent = this.points;
+        }
+    }
 }
 
 window.Game = Game;
+
