@@ -893,4 +893,16 @@ body {
         font-size: 0.95em;
         min-width: 320px;
     }
-} 
+.menu-top-left {
+    position: absolute;
+    top: 130px;                   /* Ajusta según la posición debajo de "Puntos" */
+    left: 16px;
+    height: 20px;                /* Altura fija */
+    padding: 0 8px;              /* Solo padding horizontal */
+    font-size: 0.70rem;          /* Tamaño de letra reducido para que quepa */
+    line-height: 20px;           /* Centra verticalmente el texto */
+    border-radius: 4px;
+    z-index: 10;
+    width: fit-content;
+    box-sizing: border-box;
+}

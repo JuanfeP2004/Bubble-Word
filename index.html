@@ -51,6 +51,8 @@
                     </div>
                 </div>
                 <img class="game-photo" src="" alt="">
+                <!-- Botón para volver al menú principal -->
+                <button id="back-to-menu" class="button menu-top-left">Menú Principal</button>
             </div>
             
             <!-- Contenedor para el texto del objetivo y el botón de recarga -->
@@ -200,6 +202,18 @@
                 exitButton.addEventListener('click', function() {
                     document.getElementById('endgame-screen').style.display = 'none';
                     document.getElementById('main-screen').style.display = 'block';
+                });
+            }
+
+            // Botón para volver al menú principal desde el juego
+            const backToMenuBtn = document.getElementById('back-to-menu');
+            if (backToMenuBtn) {
+                backToMenuBtn.addEventListener('click', function() {
+                    document.getElementById('game-screen').style.display = 'none';
+                    document.getElementById('main-screen').style.display = 'block';
+                    if (window.game && typeof window.game.endGame === 'function') {
+                        window.game.endGame(); // Si tienes lógica para pausar o terminar el juego
+                    }
                 });
             }
         });
