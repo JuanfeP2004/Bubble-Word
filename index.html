@@ -100,7 +100,7 @@
                 </div>
                 <p class="grid-size">9x9</p>
             </div>
-            <a href="#" class="button navButton" data-page="screen-inicio">REGRESAR</a>
+            <a href="#" class="button navButton" data-page="main-screen">REGRESAR</a>
         </section>
     </div>
 
@@ -108,14 +108,15 @@
         <section id="screen-puntuacion">
             <h1 class="title">MEJORES JUEGOS</h1>
             <div class="bestgames-container"></div>
-            <a href="#" class="button navButton" data-page="screen-inicio">REGRESAR</a>
+            <a href="#" class="button navButton" data-page="main-screen">REGRESAR</a>
         </section>
     </div>
 
     <!-- Cargar scripts en orden -->
     <script src="js/data/listwords.js"></script>
     <script src="js/utils/reloj.js"></script>
-    <script src="js/utils/opciones.js"></script>
+    <script src="js/classes/opciones.js"></script>
+    <script src="js/classes/puntuaciones.js"></script>
     <script src="js/classes/game.js"></script>
     <script src="js/utils/navegation.js"></script>
     <script src="js/background.js"></script>
@@ -127,9 +128,19 @@
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-screen').style.display = 'block';
                 
-                // Crear instancia del juego e inicializar navegación AHORA
+                // Crear instancia del juego e inicializar navegación
                 window.game = new Game();
                 window.navegacion = new Navegacion(window.game);
+
+                // Crear instancias de las pantallas
+                window.opcionesScreen = new OpcionesScreen(window.game);
+                window.puntuacionesScreen = new PuntuacionesScreen(window.game);
+
+                // Inicializar las pantallas
+                window.opcionesScreen.init();
+                window.puntuacionesScreen.init();
+
+                // Mostrar la pantalla inicial
                 window.navegacion.paginaInicial();
             }, 2000);
         });

@@ -512,6 +512,7 @@ body {
     width: 100%;
     max-width: 600px;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .title {
@@ -547,12 +548,30 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .dificulty-selector:hover {
     background: rgba(255, 255, 255, 0.15);
     transform: translateX(5px);
+}
+
+.dificulty-selector.active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(10px);
+}
+
+.dificulty-selector.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: #4CAF50;
 }
 
 .dificulty-title {
@@ -595,6 +614,7 @@ body {
     width: 100%;
     max-width: 600px;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .bestgames-container {
@@ -604,6 +624,7 @@ body {
     padding: 20px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
+    box-sizing: border-box;
 }
 
 /* Animations */
@@ -683,4 +704,43 @@ body {
     height: 1.5em;
     margin-top: -15px;
     margin-bottom: 10px;
+}
+
+/* Estilos para la pantalla de puntuaciones */
+.scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.scores-table th,
+.scores-table td {
+    padding: 12px;
+    text-align: center;
+    color: #fff;
+}
+
+.scores-table th {
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.scores-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.scores-table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.no-scores {
+    text-align: center;
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 20px;
+    opacity: 0.8;
 } 

@@ -21,7 +21,6 @@ class Game {
     }
 
     initializeGame() {
-        this.setupEventListeners();
         this.loadBestGames();
         const easySelectorButton = document.querySelector('.dificulty-selector .dificulty-title');
         if (easySelectorButton && easySelectorButton.textContent.toLowerCase() === 'facil') {
@@ -33,15 +32,11 @@ class Game {
         this.setupReloadButton();
     }
 
-    setupEventListeners() {
-        document.getElementById('startButton').addEventListener('click', () => this.startGame());
-        document.querySelectorAll('.dificulty-selector').forEach(selector => {
-            selector.addEventListener('click', () => this.changeDifficulty(selector));
-        });
-    }
-
     setupReloadButton() {
-        document.getElementById('reloadButton').addEventListener('click', () => this.reloadGrid());
+        const reloadButton = document.getElementById('reloadButton');
+        if (reloadButton) {
+            reloadButton.addEventListener('click', () => this.reloadGrid());
+        }
     }
 
     reloadGrid() {
@@ -64,8 +59,6 @@ class Game {
         this.selectWordFromImage();
         this.createGrid();
         this.startTimer();
-        document.getElementById('game-screen').style.display = 'block';
-        document.getElementById('main-screen').style.display = 'none';
     }
 
     loadRandomImage() {
@@ -442,4 +435,4 @@ class Game {
     }
 }
 
-window.Game = Game; // Hacer la clase Game globalmente accesible
+window.Game = Game;
