@@ -94,9 +94,11 @@ class Game {
     updateWordDisplay() {
         const objectiveWordsContainer = document.querySelector('.objective-words');
         if (objectiveWordsContainer) {
-            objectiveWordsContainer.innerHTML = this.guessedWordDisplay.map(char => 
-                `<span class="word-underline">${char.toUpperCase()}</span>`
-            ).join('');
+            objectiveWordsContainer.innerHTML = this.guessedWordDisplay.map(char => {
+                // If the character is an underscore, return an empty span for just the line.
+                // Otherwise, return the span with the letter.
+                return `<span class="word-underline">${char === '_' ? '' : char.toUpperCase()}</span>`;
+            }).join('');
         }
     }
 
