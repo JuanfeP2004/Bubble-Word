@@ -2,18 +2,25 @@ class Reloj {
     constructor(timeElementId, canvasElementId, initialTimeInSeconds) {
         this.timeElement = document.getElementById(timeElementId);
         this.canvas = document.getElementById(canvasElementId);
-        this.ctx = this.canvas.getContext('2d');
+        // Check if canvas and context are available
+        if (this.canvas) {
+            this.ctx = this.canvas.getContext('2d');
+            this.canvasWidth = this.canvas.width;
+            this.canvasHeight = this.canvas.height;
+        } else {
+            console.error('Reloj: Canvas element not found with ID:', canvasElementId);
+            this.ctx = null; // Ensure ctx is null if canvas not found
+        }
+        
         this.initialTime = initialTimeInSeconds;
         this.timeLeft = initialTimeInSeconds;
         this.timerInterval = null;
         this.isRunning = false;
 
-        this.canvasWidth = this.canvas.width;
-        this.canvasHeight = this.canvas.height;
     }
 
     start() {
-        if (this.isRunning) return;
+        if (this.isRunning || !this.ctx) return; // Prevent starting if already running or context is invalid
 
         this.isRunning = true;
         this.timeLeft = this.initialTime;
@@ -23,11 +30,12 @@ class Reloj {
         this.timerInterval = setInterval(() => {
             this.timeLeft--;
             this.updateDisplay();
-            this.drawHourglass(); // Update animation every second
+            // Update animation every second only if context is valid
+            if (this.ctx) this.drawHourglass(); 
 
             if (this.timeLeft <= 0) {
                 this.stop();
-                // Aquí podrías añadir lógica para fin de juego, etc.
+                // Add game end logic here if needed
                 console.log("¡Tiempo terminado!");
             }
         }, 1000);
@@ -42,17 +50,23 @@ class Reloj {
         this.stop();
         this.timeLeft = this.initialTime;
         this.updateDisplay();
-        this.drawHourglass();
+        // Redraw hourglass on reset only if context is valid
+        if (this.ctx) this.drawHourglass();
     }
 
     updateDisplay() {
-        const minutes = Math.floor(this.timeLeft / 60);
-        const seconds = this.timeLeft % 60;
-        const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}s`;
-        this.timeElement.textContent = formattedTime;
+        if (this.timeElement) { // Check if timeElement exists
+            const minutes = Math.floor(this.timeLeft / 60);
+            const seconds = this.timeLeft % 60;
+            const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}s`;
+            this.timeElement.textContent = formattedTime;
+        }
     }
 
     drawHourglass() {
+        // Only draw if context is valid
+        if (!this.ctx) return;
+
         const ctx = this.ctx;
         const w = this.canvasWidth;
         const h = this.canvasHeight;
@@ -62,7 +76,7 @@ class Reloj {
 
         ctx.clearRect(0, 0, w, h);
 
-        // Dibujar el marco del reloj de arena
+        // Draw the hourglass frame
         ctx.beginPath();
         ctx.moveTo(w * 0.1, 0);
         ctx.lineTo(w * 0.9, 0);
@@ -79,14 +93,14 @@ class Reloj {
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Calcular el porcentaje de tiempo restante
+        // Calculate the percentage of time left
         const percentLeft = this.timeLeft / this.initialTime;
 
-        // Dibujar arena
+        // Draw sand - upper part
         ctx.beginPath();
         ctx.moveTo(w * 0.1, 0);
         ctx.lineTo(w * 0.9, 0);
-        // La línea inferior de la arena superior se mueve hacia arriba según el tiempo restante
+        // The bottom line of the upper sand moves up according to the remaining time
         const upperSandHeight = h * 0.5 * percentLeft;
         ctx.lineTo(w * (0.5 + (0.4 * (1 - percentLeft))), h * 0.45 - (h * 0.45 * (1 - percentLeft)));
          ctx.lineTo(w * (0.5 - (0.4 * (1 - percentLeft))), h * 0.45 - (h * 0.45 * (1 - percentLeft)));
@@ -94,11 +108,11 @@ class Reloj {
         ctx.fillStyle = sandColor;
         ctx.fill();
 
-         // Parte inferior
+         // Bottom part
         ctx.beginPath();
         ctx.moveTo(w * 0.1, h);
         ctx.lineTo(w * 0.9, h);
-         // efecto de la arena que cae
+         // Sand falling effect
         const lowerSandHeight = h * 0.5 * (1 - percentLeft);
         ctx.lineTo(w * (0.5 + (0.4 * percentLeft)), h * 0.55 + (h * 0.45 * percentLeft));
         ctx.lineTo(w * (0.5 - (0.4 * percentLeft)), h * 0.55 + (h * 0.45 * percentLeft));

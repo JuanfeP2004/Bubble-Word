@@ -9,29 +9,34 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!--VISTA DE CARGA (SPLASH SCREEN)-->
+    <!-- Background Canvas -->
+    <canvas id="backgroundCanvas"></canvas>
+
+    <!-- Splash Screen -->
     <div id="splash-screen">
         <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
     </div>
 
-    <!--VISTA PRINCIPAL (MAIN MENU)-->
+    <!-- Main Menu Screen -->
     <div id="main-screen" style="display: none;">
-        <canvas id="backgroundCanvas"></canvas>
         <section id="screen-inicio">
-            <h1 class="tittle">BUBBLE WORD</h1>
-            <a href="#" class="button navButton" data-page="screen-juego">JUGAR</a>
-            <a href="#" class="button navButton" data-page="screen-opciones">OPCIONES</a>
-            <a href="#" class="button navButton" data-page="screen-puntuacion">PUNTUACION</a>
-            <span class="bigtext">CREDITOS</span>
-            <span class="bigtext">Juan Felipe Ramirez</span>
-            <span class="bigtext">Andres Felipe Saenz</span>
-            <span class="bigtext">Victor Alfonso Martinez</span>
+            <div class="content-wrapper">
+                <h1 class="tittle">Bubble Word</h1>
+                <button class="button" id="startButton">Jugar</button>
+                <button class="button" id="optionsButton">Opciones</button>
+                <button class="button" id="scoreButton">Puntuaciones</button>
+            </div>
+            <div class="credits-wrapper">
+                <p class="credits-title">CREDITOS</p>
+                <span class="bigtext">Juan Felipe Ramirez</span>
+                <span class="bigtext">Andres Felipe Saenz</span>
+                <span class="bigtext">Victor Alfonso Martinez</span>
+            </div>
         </section>
     </div>
 
-    <!-- VISTA DE JUEGO (GAME SCREEN) -->
+    <!-- Game Screen -->
     <div id="game-screen" style="display: none;">
-        <canvas id="backgroundCanvas"></canvas>
         <section id="screen-juego">
             <div class="head-game">
                 <div class="game-info">
@@ -56,9 +61,8 @@
         </section>
     </div>
 
-    <!-- VISTA DE OPCIONES (OPTIONS SCREEN) -->
+    <!-- Options Screen -->
     <div id="options-screen" style="display: none;">
-        <canvas id="backgroundCanvas"></canvas>
         <section id="screen-opciones">
             <h1 class="title">OPCIONES</h1>
             <h2 class="subtitle">DIFICULTAD</h2>
@@ -87,9 +91,8 @@
         </section>
     </div>
 
-    <!--VISTA DE PUNTUACIÓN (SCORE SCREEN) -->
+    <!-- Score Screen -->
     <div id="score-screen" style="display: none;">
-        <canvas id="backgroundCanvas"></canvas>
         <section id="screen-puntuacion">
             <h1 class="title">MEJORES JUEGOS</h1>
             <div class="bestgames-container"></div>
@@ -105,13 +108,14 @@
         import Navegacion from './js/utils/navegation.js';
         import Reloj from './js/utils/reloj.js';
         import { game } from './js/main.js';
+        // import { startWordRain } from './js/background.js'; // No longer needed as functions are global
         
-        // Manejo de la vista de carga
+        // Handle initial splash screen and navigation setup
         setTimeout(() => {
             document.getElementById('splash-screen').style.display = 'none';
             document.getElementById('main-screen').style.display = 'block';
             
-            // Inicializar la navegación después de mostrar el splash
+            // Initialize navigation after splash screen is hidden
             const navegacion = new Navegacion(game);
             navegacion.paginaInicial();
         }, 2000);
