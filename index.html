@@ -272,29 +272,69 @@
                 });
             }
 
-            // Easter Egg: mostrar imagen al hacer clic en el logo del menú principal
-            const mainLogo = document.querySelector('#main-screen .main-logo');
-            const easterEggModal = document.getElementById('easter-egg-modal');
-            let easterEggAudio = null;
+            // Audio de fondo
+            const mainThemeAudio = document.getElementById('main-theme-audio');
+            if (mainThemeAudio) {
+                // Reproducir cuando inicia el juego
+                const startGame = () => {
+                    mainThemeAudio.currentTime = 0;
+                    mainThemeAudio.volume = 0.5;
+                    mainThemeAudio.play();
+                };
 
-            if (mainLogo && easterEggModal) {
-                mainLogo.addEventListener('click', function() {
-                    easterEggModal.style.display = 'flex';
-                    // Reproducir sonido
-                    easterEggAudio = new Audio('sonido/Halo.mp3');
-                    easterEggAudio.play();
-                });
-                easterEggModal.addEventListener('click', function() {
-                    easterEggModal.style.display = 'none';
-                    // Detener sonido
-                    if (easterEggAudio) {
-                        easterEggAudio.pause();
-                        easterEggAudio.currentTime = 0;
-                        easterEggAudio = null;
-                    }
-                });
+                // Detener cuando termina el juego o vuelve al menú
+                const stopGame = () => {
+                    mainThemeAudio.pause();
+                    mainThemeAudio.currentTime = 0;
+                };
+
+                // Iniciar audio al entrar al juego
+                const startButton = document.getElementById('startButton');
+                if (startButton) {
+                    startButton.addEventListener('click', startGame);
+                }
+
+                // Detener audio al volver al menú principal
+                const backToMenuBtn = document.getElementById('back-to-menu');
+                if (backToMenuBtn) {
+                    backToMenuBtn.addEventListener('click', stopGame);
+                }
+                const exitButton = document.getElementById('exit-button');
+                if (exitButton) {
+                    exitButton.addEventListener('click', stopGame);
+                }
+
+                // Pausar audio al mostrar el Easter Egg y reanudar al cerrarlo
+                const mainLogo = document.querySelector('#main-screen .main-logo');
+                const easterEggModal = document.getElementById('easter-egg-modal');
+                let easterEggAudio = null;
+
+                if (mainLogo && easterEggModal) {
+                    mainLogo.addEventListener('click', function() {
+                        easterEggModal.style.display = 'flex';
+                        // Pausar el tema principal
+                        mainThemeAudio.pause();
+                        // Reproducir sonido del Easter Egg
+                        easterEggAudio = new Audio('sonido/Halo.mp3');
+                        easterEggAudio.play();
+                    });
+                    easterEggModal.addEventListener('click', function() {
+                        easterEggModal.style.display = 'none';
+                        // Detener sonido del Easter Egg
+                        if (easterEggAudio) {
+                            easterEggAudio.pause();
+                            easterEggAudio.currentTime = 0;
+                            easterEggAudio = null;
+                        }
+                        // Reanudar el tema principal si el juego está activo
+                        if (document.getElementById('game-screen').style.display === 'block') {
+                            mainThemeAudio.play();
+                        }
+                    });
+                }
             }
         });
     </script>
+    <audio id="main-theme-audio" src="sonido/Main theme.mp3" loop></audio>
 </body>
 </html>
