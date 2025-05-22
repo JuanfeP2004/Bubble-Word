@@ -150,6 +150,10 @@
         </div>
     </div>
 
+    <div id="easter-egg-modal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
+        <img id="easter-egg-img" src="img/1.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
+    </div>
+
     <!-- Cargar scripts en orden -->
     <script src="js/data/listwords.js"></script>
     <script src="js/utils/reloj.js"></script>
@@ -261,6 +265,29 @@
                 hintButton.addEventListener('click', function() {
                     if (window.game && typeof window.game.useHint === 'function') {
                         window.game.useHint();
+                    }
+                });
+            }
+
+            // Easter Egg: mostrar imagen al hacer clic en el logo del menú principal
+            const mainLogo = document.querySelector('#main-screen .main-logo');
+            const easterEggModal = document.getElementById('easter-egg-modal');
+            let easterEggAudio = null;
+
+            if (mainLogo && easterEggModal) {
+                mainLogo.addEventListener('click', function() {
+                    easterEggModal.style.display = 'flex';
+                    // Reproducir sonido
+                    easterEggAudio = new Audio('sonido/Halo.mp3');
+                    easterEggAudio.play();
+                });
+                easterEggModal.addEventListener('click', function() {
+                    easterEggModal.style.display = 'none';
+                    // Detener sonido
+                    if (easterEggAudio) {
+                        easterEggAudio.pause();
+                        easterEggAudio.currentTime = 0;
+                        easterEggAudio = null;
                     }
                 });
             }
