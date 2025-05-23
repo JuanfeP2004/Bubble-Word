@@ -4,22 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Word</title>
-    <link rel="shortcut icon" href="img/BubbleWordLogo.ico">
-    <link rel="stylesheet" href="css/splash.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="/assets/BubbleWordLogo-rYABPhTl.ico">
+  <link rel="stylesheet" crossorigin href="/assets/index-Ck2YK5WT.css">
 </head>
 <body>
     <canvas id="backgroundCanvas"></canvas>
 
     <div id="splash-screen">
-        <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
+        <img src="/assets/BubbleWordLogo-rYABPhTl.ico" alt="Bubble Word Logo" class="splash-logo">
     </div>
 
     <div id="main-screen" style="display: none;">
         <section id="screen-inicio">
             <div class="content-wrapper">
                 <!-- Logo -->
-                <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="main-logo">
+                <img src="/assets/BubbleWordLogo-rYABPhTl.ico" alt="Bubble Word Logo" class="main-logo">
                 <h1 class="tittle">Bubble Word</h1>
                 <button class="button" id="startButton">Jugar</button>
                 <button class="button" id="optionsButton">Opciones</button>
@@ -87,24 +86,24 @@
             <h2 class="subtitle">DIFICULTAD</h2>
             <div class="dificulty-selector">
                 <div>
-                    <p class="dificulty-title">FACIL</p>
+                    <p class="dificulty-title">EASY</p>
                     <p class="dificulty-time">00:30</p>
+                </div>
+                <p class="grid-size">4x4</p>
+            </div>
+            <div class="dificulty-selector">
+                <div>
+                    <p class="dificulty-title">MEDIUM</p>
+                    <p class="dificulty-time">00:20</p>
                 </div>
                 <p class="grid-size">5x5</p>
             </div>
             <div class="dificulty-selector">
                 <div>
-                    <p class="dificulty-title">NORMAL</p>
-                    <p class="dificulty-time">00:20</p>
-                </div>
-                <p class="grid-size">7x7</p>
-            </div>
-            <div class="dificulty-selector">
-                <div>
-                    <p class="dificulty-title">DIFICIL</p>
+                    <p class="dificulty-title">HARD</p>
                     <p class="dificulty-time">00:10</p>
                 </div>
-                <p class="grid-size">9x9</p>
+                <p class="grid-size">6x6</p>
             </div>
             <a href="#" class="button navButton" data-page="main-screen">REGRESAR</a>
         </section>
@@ -151,7 +150,7 @@
     </div>
 
     <div id="easter-egg-modal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
-        <img id="easter-egg-img" src="img/1.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
+        <img id="easter-egg-img" src="/assets/1-BY0eNxzO.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
     </div>
 
     <!-- Cargar scripts en orden -->
@@ -216,8 +215,15 @@
             }
             if (retryButton) {
                 retryButton.addEventListener('click', function() {
+                    // Limpiar el campo de nombre
+                    document.getElementById('player-name').value = '';
+                    // Limpiar el puntaje final
+                    document.getElementById('final-score').textContent = '0';
+                    // Ocultar pantalla de fin de juego
                     document.getElementById('endgame-screen').style.display = 'none';
+                    // Mostrar pantalla de juego
                     document.getElementById('game-screen').style.display = 'block';
+                    // Reiniciar el juego
                     window.game.startGame();
                 });
             }
@@ -275,24 +281,11 @@
             // Audio de fondo
             const mainThemeAudio = document.getElementById('main-theme-audio');
             if (mainThemeAudio) {
-                // Reproducir cuando inicia el juego
-                const startGame = () => {
-                    mainThemeAudio.currentTime = 0;
-                    mainThemeAudio.volume = 0.5;
-                    mainThemeAudio.play();
-                };
-
                 // Detener cuando termina el juego o vuelve al menú
                 const stopGame = () => {
                     mainThemeAudio.pause();
                     mainThemeAudio.currentTime = 0;
                 };
-
-                // Iniciar audio al entrar al juego
-                const startButton = document.getElementById('startButton');
-                if (startButton) {
-                    startButton.addEventListener('click', startGame);
-                }
 
                 // Detener audio al volver al menú principal
                 const backToMenuBtn = document.getElementById('back-to-menu');
@@ -335,6 +328,6 @@
             }
         });
     </script>
-    <audio id="main-theme-audio" src="sonido/Main theme.mp3" loop></audio>
+    <audio id="main-theme-audio" src="/assets/Main%20theme-CpjqGjzu.mp3" loop></audio>
 </body>
 </html>
