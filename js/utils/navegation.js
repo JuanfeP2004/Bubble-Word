@@ -43,6 +43,14 @@ class Navegacion {
         this.hideAllScreens();
         this.gameScreen.style.display = 'block';
         this.game.startGame();
+        
+        // Iniciar la música de fondo
+        const mainThemeAudio = document.getElementById('main-theme-audio');
+        if (mainThemeAudio) {
+            mainThemeAudio.currentTime = 0;
+            mainThemeAudio.volume = 0.5;
+            mainThemeAudio.play();
+        }
     }
 
     showOptionsScreen() {

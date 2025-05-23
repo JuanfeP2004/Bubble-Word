@@ -3,28 +3,41 @@ class Game {
         this.currentWord = '';
         this.currentCategory = '';
         this.score = 0;
-        this.difficulty = 'facil';
-        this.gridSize = 5;
+        this.difficulty = 'easy';
+        this.gridSize = 4;
         this.timeLimit = 30;
         this.isPlaying = false;
         this.selectedLetters = [];
         this.correctWords = [];
-        this.images = [
-            'casa.jpg', 'fresa.jpg', 'libro.jpg', 'luna.jpg', 'playa.jpg',
-            'rosa.jpg', 'silla.jpg', 'caja.jpg', 'auto.jpg', 'avion.jpg', 'arbol.jpg'
-        ];
+        this.hintsUsed = 0;
+        this.maxHints = 3;
+        this.images = {
+            easy: [
+                'casa.jpg', 'fresa.jpg', 'libro.jpg', 'luna.jpg', 'playa.jpg',
+                'rosa.jpg', 'silla.jpg', 'caja.jpg', 'auto.jpg', 'avion.jpg', 'arbol.jpg'
+            ],
+            medium: [
+                'sombrero.jpg', 'tenedor.jpg', 'tormenta.jpg', 'paraguas.jpg', 'planeta.jpg',
+                'oceano.jpg', 'muelle.jpg', 'espejo.jpg', 'montaña.jpg', 'aguacate.jpg', 'esfera.jpg'
+            ],
+            hard: [
+                'marioneta.jpg', 'invernadero.jpg', 'laboratorio.jpg', 'fotografia.jpg', 'explosion.jpg',
+                'escritorio.jpg', 'esqueleto.jpg', 'camuflaje.jpg', 'biblioteca.jpg', 'aeropuerto.jpg', 'amanecer.jpg'
+            ]
+        };
         this.wordDisplay = document.getElementById('word-display');
         this.gamePhotoElement = document.querySelector('.game-photo');
         this.feedbackMessageElement = document.getElementById('feedback-message');
-        this.isActive = false; // Nueva bandera
+        this.isActive = false;
         this.initializeGame();
         this.initClock();
     }
 
     initializeGame() {
         this.loadBestGames();
+        this.setDifficulty(30, 4, 'easy');
         const easySelectorButton = document.querySelector('.dificulty-selector .dificulty-title');
-        if (easySelectorButton && easySelectorButton.textContent.toLowerCase() === 'facil') {
+        if (easySelectorButton && easySelectorButton.textContent.toLowerCase() === 'easy') {
             const facilButton = easySelectorButton.closest('.dificulty-selector');
             if(facilButton) {
                  facilButton.classList.add('selected');
@@ -42,12 +55,26 @@ class Game {
 
     reloadGrid() {
         if (this.isPlaying) {
+            // Limpiar la cuadrícula
             const grid = document.querySelector('.bubble-soup');
             grid.innerHTML = '';
+            
+            // Limpiar letras seleccionadas
             this.selectedLetters = [];
-            this.updateWordDisplay();
-            this.feedbackMessageElement.textContent = '';
-
+            
+            // Limpiar la visualización de la palabra
+            this.wordDisplay.innerHTML = '';
+            this.displayWordProgress();
+            
+            // Limpiar mensaje de feedback
+            if (this.feedbackMessageElement) {
+                this.feedbackMessageElement.textContent = '';
+            }
+            
+            // Limpiar clase de animación si existe
+            this.wordDisplay.classList.remove('correct');
+            
+            // Crear nueva cuadrícula
             this.createGrid();
         }
     }
@@ -56,6 +83,29 @@ class Game {
         this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit, () => {
             this.showEndGameScreen();
         });
+
+        // Agregar observador para el tiempo
+        const timeElement = document.getElementById('time-number');
+        if (timeElement) {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'characterData' || mutation.type === 'childList') {
+                        const currentTime = parseInt(timeElement.textContent);
+                        if (currentTime <= 5) {
+                            timeElement.classList.add('warning');
+                        } else {
+                            timeElement.classList.remove('warning');
+                        }
+                    }
+                });
+            });
+
+            observer.observe(timeElement, {
+                characterData: true,
+                childList: true,
+                subtree: true
+            });
+        }
     }
 
     startGame() {
@@ -88,35 +138,37 @@ class Game {
         
     }
 
-    loadRandomImage() {
-        let imagesForDifficulty = [];
-        switch (this.difficulty) {
-            case 'facil':
-                imagesForDifficulty = this.images;
-                break;
-            case 'normal':
-                 imagesForDifficulty = this.images.filter(img => 
-                     words.medium.includes(img.replace('.jpg', '').toUpperCase()));
-                 if (imagesForDifficulty.length === 0 && this.images.length > 0) {
-                     imagesForDifficulty = this.images;
-                 }
-                break;
-            case 'dificil':
-                 imagesForDifficulty = this.images.filter(img => 
-                     words.hard.includes(img.replace('.jpg', '').toUpperCase()));
-                 if (imagesForDifficulty.length === 0 && this.images.length > 0) {
-                     imagesForDifficulty = this.images;
-                 }
-                break;
+    setDifficulty(time, gridSize, difficulty) {
+        this.timeLimit = time;
+        this.gridSize = gridSize;
+        this.difficulty = difficulty;
+        this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
+        
+        if (this.isPlaying) {
+            this.resetBubbleState();
+            this.loadRandomImage();
+            this.selectWordFromImage();
+            this.createGrid();
+            this.clock.reset();
+            this.clock.start();
         }
+    }
 
-        if (imagesForDifficulty.length === 0) {
+    loadRandomImage() {
+        const imagesForDifficulty = this.images[this.difficulty];
+        if (!imagesForDifficulty || imagesForDifficulty.length === 0) {
             return;
         }
 
         const randomImage = imagesForDifficulty[Math.floor(Math.random() * imagesForDifficulty.length)];
-        this.gamePhotoElement.src = `img/words/${this.difficulty === 'facil' ? 'easy' : this.difficulty}/${randomImage}`;
+        this.gamePhotoElement.src = `img/words/${this.difficulty}/${randomImage}`;
         this.gamePhotoElement.alt = randomImage.replace('.jpg', '').toUpperCase();
+        
+        this.hintsUsed = 0;
+        const hintButton = document.getElementById('hint-button');
+        if (hintButton) {
+            hintButton.disabled = false;
+        }
     }
 
     selectWordFromImage() {
@@ -140,6 +192,8 @@ class Game {
     createGrid() {
         const grid = document.querySelector('.bubble-soup');
         grid.innerHTML = '';
+        grid.setAttribute('data-difficulty', this.difficulty);
+        
         const letters = this.currentWord.split('');
         const extraLetters = this.generateExtraLetters();
         const allLetters = this.shuffleArray([...letters, ...extraLetters]);
@@ -147,10 +201,14 @@ class Game {
         const totalCells = this.gridSize * this.gridSize;
         const gridLetters = allLetters.slice(0, totalCells);
 
+        grid.style.gridTemplateColumns = `repeat(${this.gridSize}, 1fr)`;
+        grid.style.gridTemplateRows = `repeat(${this.gridSize}, 1fr)`;
+
         for (let i = 0; i < totalCells; i++) {
             const letter = document.createElement('div');
             letter.className = 'bubble';
             letter.textContent = gridLetters[i];
+            letter.style.setProperty('--bubble-index', i);
             
             const { rgba, rgb } = this.getRandomBubbleColor();
             letter.style.setProperty('--bubble-color-rgb', rgb);
@@ -158,8 +216,6 @@ class Game {
             letter.addEventListener('click', () => this.selectLetter(letter));
             grid.appendChild(letter);
         }
-        
-        grid.style.gridTemplateColumns = `repeat(${this.gridSize}, 1fr)`;
     }
 
     getRandomBubbleColor() {
@@ -217,19 +273,19 @@ class Game {
         if (!this.isPlaying || bubble.classList.contains('selected') || bubble.classList.contains('exploding')) return;
         
         if (this.selectedLetters.length < this.currentWord.length) {
-            const numberOfMiniBubbles = 8;
+            const numberOfMiniBubbles = 12;
             for (let i = 0; i < numberOfMiniBubbles; i++) {
                 const miniBubble = document.createElement('div');
                 miniBubble.className = 'mini-bubble';
                 
                 const angle = (i / numberOfMiniBubbles) * 2 * Math.PI;
-                const spreadDistance = 40;
-                const x = spreadDistance * Math.cos(angle) + (Math.random() - 0.5) * 10;
-                const y = spreadDistance * Math.sin(angle) + (Math.random() - 0.5) * 10;
+                const spreadDistance = 45 + Math.random() * 15;
+                const x = spreadDistance * Math.cos(angle) + (Math.random() - 0.5) * 20;
+                const y = spreadDistance * Math.sin(angle) + (Math.random() - 0.5) * 20;
                 
                 miniBubble.style.setProperty('--x', `${x}px`);
                 miniBubble.style.setProperty('--y', `${y}px`);
-                miniBubble.style.animationDelay = `${Math.random() * 0.2}s`;
+                miniBubble.style.animationDelay = `${Math.random() * 0.3}s`;
                 
                 bubble.appendChild(miniBubble);
             }
@@ -240,9 +296,6 @@ class Game {
             const popSound = new Audio('sonido/Efecto de sonido burbuja POP.mp3');
             popSound.play();
             
-            bubble.addEventListener('animationend', () => {
-            }, { once: true });
-
             this.selectedLetters.push(bubble);
             this.updateWordDisplay();
             
@@ -286,12 +339,25 @@ class Game {
             this.correctWords.push(this.currentWord);
             this.score += 500;
             this.updateScore();
-            this.feedbackMessageElement.textContent = '';
+            
+            // Aplicar animación de palabra correcta
+            const wordDisplay = document.getElementById('word-display');
+            wordDisplay.classList.add('correct');
+            
+            // Mostrar mensaje de éxito
+            this.feedbackMessageElement.textContent = '¡Palabra correcta! +500';
+            this.feedbackMessageElement.style.color = '#4CAF50';
 
             this.selectedLetters.forEach(bubble => bubble.classList.remove('selected'));
             this.selectedLetters = [];
 
+            // Limpiar el mensaje después de 1 segundo
             setTimeout(() => {
+                this.feedbackMessageElement.textContent = '';
+            }, 1000);
+
+            setTimeout(() => {
+                wordDisplay.classList.remove('correct');
                 this.resetBubbleState();
                 this.loadRandomImage();
                 this.selectWordFromImage();
@@ -301,6 +367,7 @@ class Game {
             }, 1000);
         } else {
             this.feedbackMessageElement.textContent = 'Palabra incorrecta';
+            this.feedbackMessageElement.style.color = '#ff4444';
 
             setTimeout(() => {
                 this.selectedLetters.forEach(bubble => {
@@ -322,7 +389,12 @@ class Game {
     }
 
     updateScore() {
-        document.querySelector('.points-number').textContent = this.score;
+        const pointsElement = document.querySelector('.points-number');
+        pointsElement.textContent = this.score;
+        pointsElement.classList.add('score-update');
+        setTimeout(() => {
+            pointsElement.classList.remove('score-update');
+        }, 500);
     }
 
     showEndGameScreen() {
@@ -353,31 +425,15 @@ class Game {
         selector.classList.add('selected');
 
         switch(difficulty) {
-            case 'facil':
-                this.gridSize = 5;
-                this.timeLimit = 30;
+            case 'easy':
+                this.setDifficulty(30, 4, 'easy');
                 break;
-            case 'normal':
-                this.gridSize = 7;
-                this.timeLimit = 20;
+            case 'medium':
+                this.setDifficulty(20, 5, 'medium');
                 break;
-            case 'dificil':
-                this.gridSize = 9;
-                this.timeLimit = 10;
+            case 'hard':
+                this.setDifficulty(10, 6, 'hard');
                 break;
-        }
-        
-        this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
-        
-        if (this.isPlaying) {
-             this.resetBubbleState();
-             this.loadRandomImage();
-             this.selectWordFromImage();
-             this.createGrid();
-             this.clock.reset();
-             this.clock.start();
-        } else {
-             this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
         }
     }
 
@@ -392,11 +448,16 @@ class Game {
     }
 
     useHint() {
+        if (this.hintsUsed >= this.maxHints) {
+            const hintButton = document.getElementById('hint-button');
+            if (hintButton) hintButton.disabled = true;
+            return;
+        }
+
         const wordDisplay = document.getElementById('word-display');
         const currentLetters = Array.from(wordDisplay.querySelectorAll('.selected-word-letter')).map(e => e.textContent);
         const targetWord = this.currentWord;
 
-        // Busca el primer índice donde falta la letra
         let hintIndex = -1;
         for (let i = 0; i < targetWord.length; i++) {
             if (!currentLetters[i] || currentLetters[i] === "") {
@@ -404,7 +465,7 @@ class Game {
                 break;
             }
         }
-        // Si ya está completa la palabra o solo falta la última letra, deshabilita el botón y no hagas nada
+
         const letrasFaltantes = targetWord.length - currentLetters.filter(l => l && l !== "").length;
         const hintButton = document.getElementById('hint-button');
         if (hintIndex === -1 || letrasFaltantes <= 1) {
@@ -414,7 +475,6 @@ class Game {
 
         const hintLetter = targetWord[hintIndex];
 
-        // Busca la burbuja con esa letra
         const bubbles = document.querySelectorAll('.bubble');
         let bubbleToClick = null;
         for (let bubble of bubbles) {
@@ -423,12 +483,12 @@ class Game {
                 break;
             }
         }
-        if (!bubbleToClick) return; // No hay burbuja disponible
+        if (!bubbleToClick) return;
 
-        // Simula el click en la burbuja (esto debería poner la letra y eliminar la burbuja)
         bubbleToClick.click();
 
-        // Penaliza los puntos (permite puntaje negativo)
+        this.hintsUsed++;
+
         if (typeof this.score === 'number') {
             this.score -= 200;
             document.querySelector('.points-number').textContent = this.score;
@@ -437,14 +497,9 @@ class Game {
             document.querySelector('.points-number').textContent = this.points;
         }
 
-        // Si después de usar la pista solo queda una letra, deshabilita el botón
-        setTimeout(() => {
-            const updatedLetters = Array.from(wordDisplay.querySelectorAll('.selected-word-letter')).map(e => e.textContent);
-            const updatedFaltantes = targetWord.length - updatedLetters.filter(l => l && l !== "").length;
-            if (hintButton && updatedFaltantes <= 1) {
-                hintButton.disabled = true;
-            }
-        }, 100);
+        if (this.hintsUsed >= this.maxHints) {
+            if (hintButton) hintButton.disabled = true;
+        }
     }
 }
 

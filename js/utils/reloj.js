@@ -57,6 +57,12 @@ class Reloj {
             const seconds = this.timeLeft % 60;
             const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}s`;
             this.timeElement.textContent = formattedTime;
+
+            if (this.timeLeft <= 5) {
+                this.timeElement.classList.add('warning');
+            } else {
+                this.timeElement.classList.remove('warning');
+            }
         }
     }
 

@@ -58,9 +58,9 @@ class PuntuacionesScreen {
 
     getDifficultyName(gridSize) {
         switch(gridSize) {
-            case 5: return 'Fácil';
-            case 7: return 'Normal';
-            case 9: return 'Difícil';
+            case 4: return 'Fácil';
+            case 5: return 'Normal';
+            case 6: return 'Difícil';
             default: return 'Desconocida';
         }
     }
