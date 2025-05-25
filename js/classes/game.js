@@ -400,6 +400,28 @@ class Game {
     showEndGameScreen() {
         if (!this.isActive) return; // <--- Solo muestra si el juego sigue activo
         this.isPlaying = false;
+        
+        // Limpiar los campos de entrada
+        this.selectedLetters = [];
+        this.updateWordDisplay();
+        
+        // Limpiar el mensaje de feedback
+        if (this.feedbackMessageElement) {
+            this.feedbackMessageElement.textContent = '';
+        }
+        
+        // Limpiar las burbujas seleccionadas
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach(bubble => {
+            bubble.classList.remove('selected', 'exploding');
+            bubble.style.opacity = 1;
+            bubble.style.pointerEvents = 'auto';
+            
+            // Limpiar mini-burbujas si existen
+            const miniBubbles = bubble.querySelectorAll('.mini-bubble');
+            miniBubbles.forEach(mini => mini.remove());
+        });
+        
         document.getElementById('game-screen').style.display = 'none';
         document.getElementById('endgame-screen').style.display = 'block';
         document.getElementById('final-score').textContent = this.score;
