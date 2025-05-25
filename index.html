@@ -102,7 +102,7 @@
             <div class="dificulty-selector">
                 <div>
                     <p class="dificulty-title">HARD</p>
-                    <p class="dificulty-time">00:10</p>
+                    <p class="dificulty-time">00:15</p>
                 </div>
                 <p class="grid-size">6x6</p>
             </div>
@@ -126,7 +126,7 @@
             <div id="final-score" class="endgame-score">0</div>
             <form id="endgame-form" class="endgame-form">
                 <input id="player-name" class="endgame-input" type="text" placeholder="Tu nombre" required maxlength="20">
-                <button type="submit" class="endgame-btn endgame-btn-send">ENVIAR</button>
+                <button id="send-button" type="submit" class="endgame-btn endgame-btn-send">ENVIAR</button>
             </form>
             <div class="endgame-btn-group">
                 <button id="retry-button" class="endgame-btn">REINTENTAR</button>
@@ -190,6 +190,7 @@
             const endgameForm = document.getElementById('endgame-form');
             const retryButton = document.getElementById('retry-button');
             const exitButton = document.getElementById('exit-button');
+            const sendButton = document.getElementById('send-button');
 
             if (endgameForm) {
                 endgameForm.addEventListener('submit', function(e) {
@@ -233,6 +234,14 @@
                     document.getElementById('endgame-screen').style.display = 'none';
                     document.getElementById('main-screen').style.display = 'block';
                 });
+                
+            }
+            if (sendButton) {
+                sendButton.addEventListener('click', function() {
+                    document.getElementById('endgame-screen').style.display = 'none';
+                    document.getElementById('main-screen').style.display = 'block';
+                });
+                
             }
 
             // Botón para volver al menú principal desde el juego

@@ -10,7 +10,7 @@ class OpcionesScreen {
             selector.addEventListener('click', () => {
                 this.selectDifficulty(index);
                 // Redirigir al juego después de seleccionar la dificultad
-                window.navegacion.showGameScreen();
+                //window.navegacion.showGameScreen();
             });
         });
     }
@@ -28,7 +28,7 @@ class OpcionesScreen {
         const difficulties = [
             { time: 30, gridSize: 4, difficulty: 'easy' },    // 4x4 para fácil
             { time: 20, gridSize: 5, difficulty: 'medium' },  // 5x5 para medio
-            { time: 10, gridSize: 6, difficulty: 'hard' }     // 6x6 para difícil
+            { time: 15, gridSize: 6, difficulty: 'hard' }     // 6x6 para difícil
         ];
 
         const selectedDifficulty = difficulties[index];
