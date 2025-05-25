@@ -26,13 +26,13 @@ class OpcionesScreen {
 
         // Configurar la dificultad en el juego
         const difficulties = [
-            { time: 30, gridSize: 4, difficulty: 'easy' },    // 4x4 para fácil
-            { time: 20, gridSize: 5, difficulty: 'medium' },  // 5x5 para medio
-            { time: 15, gridSize: 6, difficulty: 'hard' }     // 6x6 para difícil
+            { time: 30, gridSize: 4, difficulty: 'easy', multiplier: 1 },    // 4x4 para fácil
+            { time: 20, gridSize: 5, difficulty: 'medium', multiplier: 2 },  // 5x5 para medio
+            { time: 15, gridSize: 6, difficulty: 'hard', multiplier: 4 }     // 6x6 para difícil
         ];
 
         const selectedDifficulty = difficulties[index];
-        this.game.setDifficulty(selectedDifficulty.time, selectedDifficulty.gridSize, selectedDifficulty.difficulty);
+        this.game.setDifficulty(selectedDifficulty.time, selectedDifficulty.gridSize, selectedDifficulty.difficulty, selectedDifficulty.multiplier);
 
         // Guardar la dificultad seleccionada en localStorage
         localStorage.setItem('selectedDifficulty', JSON.stringify(selectedDifficulty));

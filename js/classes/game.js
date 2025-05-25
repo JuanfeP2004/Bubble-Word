@@ -11,6 +11,7 @@ class Game {
         this.correctWords = [];
         this.hintsUsed = 0;
         this.maxHints = 3;
+        this.multiplier = 2;
         this.images = {
             easy: [
                 'casa.jpg', 'fresa.jpg', 'libro.jpg', 'luna.jpg', 'playa.jpg',
@@ -35,7 +36,7 @@ class Game {
 
     initializeGame() {
         this.loadBestGames();
-        this.setDifficulty(30, 4, 'easy');
+        this.setDifficulty(30, 4, 'easy', 1);
         const easySelectorButton = document.querySelector('.dificulty-selector .dificulty-title');
         if (easySelectorButton && easySelectorButton.textContent.toLowerCase() === 'easy') {
             const facilButton = easySelectorButton.closest('.dificulty-selector');
@@ -138,10 +139,11 @@ class Game {
         
     }
 
-    setDifficulty(time, gridSize, difficulty) {
+    setDifficulty(time, gridSize, difficulty, multiplier) {
         this.timeLimit = time;
         this.gridSize = gridSize;
         this.difficulty = difficulty;
+        this.multiplier = multiplier;
         this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
         
         if (this.isPlaying) {
@@ -337,7 +339,8 @@ class Game {
 
         if (selectedWord === this.currentWord) {
             this.correctWords.push(this.currentWord);
-            this.score += 500;
+            this.clock.stop()
+            this.score += 500 * this.multiplier;
             this.updateScore();
             
             // Aplicar animación de palabra correcta
@@ -345,7 +348,7 @@ class Game {
             wordDisplay.classList.add('correct');
             
             // Mostrar mensaje de éxito
-            this.feedbackMessageElement.textContent = '¡Palabra correcta! +500';
+            this.feedbackMessageElement.textContent = `¡Palabra correcta! +${500*this.multiplier}`;
             this.feedbackMessageElement.style.color = '#4CAF50';
 
             this.selectedLetters.forEach(bubble => bubble.classList.remove('selected'));
@@ -448,13 +451,13 @@ class Game {
 
         switch(difficulty) {
             case 'easy':
-                this.setDifficulty(30, 4, 'easy');
+                this.setDifficulty(30, 4, 'easy', 1);
                 break;
             case 'medium':
-                this.setDifficulty(20, 5, 'medium');
+                this.setDifficulty(20, 5, 'medium', 2);
                 break;
             case 'hard':
-                this.setDifficulty(10, 6, 'hard');
+                this.setDifficulty(15, 6, 'hard', 4);
                 break;
         }
     }

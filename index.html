@@ -306,6 +306,10 @@
                 if (exitButton) {
                     exitButton.addEventListener('click', stopGame);
                 }
+                const sendButton = document.getElementById('send-button');
+                if (sendButton) {
+                    sendButton.addEventListener('click', stopGame);
+                }
 
                 // Pausar audio al mostrar el Easter Egg y reanudar al cerrarlo
                 const mainLogo = document.querySelector('#main-screen .main-logo');
