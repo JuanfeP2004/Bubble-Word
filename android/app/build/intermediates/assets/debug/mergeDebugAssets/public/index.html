@@ -4,21 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Word</title>
-    <link rel="shortcut icon" href="/assets/BubbleWordLogo-rYABPhTl.ico">
+    <link rel="shortcut icon" href="/img/BubbleWordLogo.ico">
+    
+  <script type="module" crossorigin src="/assets/index-CN_DZSCp.js"></script>
   <link rel="stylesheet" crossorigin href="/assets/index-Ck2YK5WT.css">
 </head>
 <body>
     <canvas id="backgroundCanvas"></canvas>
 
     <div id="splash-screen">
-        <img src="/assets/BubbleWordLogo-rYABPhTl.ico" alt="Bubble Word Logo" class="splash-logo">
+        <img src="/img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
     </div>
 
     <div id="main-screen" style="display: none;">
         <section id="screen-inicio">
             <div class="content-wrapper">
                 <!-- Logo -->
-                <img src="/assets/BubbleWordLogo-rYABPhTl.ico" alt="Bubble Word Logo" class="main-logo">
+                <img src="/img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="main-logo">
                 <h1 class="tittle">Bubble Word</h1>
                 <button class="button" id="startButton">Jugar</button>
                 <button class="button" id="optionsButton">Opciones</button>
@@ -101,7 +103,7 @@
             <div class="dificulty-selector">
                 <div>
                     <p class="dificulty-title">HARD</p>
-                    <p class="dificulty-time">00:10</p>
+                    <p class="dificulty-time">00:15</p>
                 </div>
                 <p class="grid-size">6x6</p>
             </div>
@@ -125,7 +127,7 @@
             <div id="final-score" class="endgame-score">0</div>
             <form id="endgame-form" class="endgame-form">
                 <input id="player-name" class="endgame-input" type="text" placeholder="Tu nombre" required maxlength="20">
-                <button type="submit" class="endgame-btn endgame-btn-send">ENVIAR</button>
+                <button id="send-button" type="submit" class="endgame-btn endgame-btn-send">ENVIAR</button>
             </form>
             <div class="endgame-btn-group">
                 <button id="retry-button" class="endgame-btn">REINTENTAR</button>
@@ -150,11 +152,11 @@
     </div>
 
     <div id="easter-egg-modal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
-        <img id="easter-egg-img" src="/assets/1-BY0eNxzO.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
+        <img id="easter-egg-img" src="/img/1.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
     </div>
 
     <!-- Cargar scripts en orden -->
-    <script src="./js/data/listwords.js"></script>
+    <!--<script src="./js/data/listwords.js"></script>
     <script src="./js/utils/reloj.js"></script>
     <script src="./js/classes/opciones.js"></script>
     <script src="./js/classes/puntuaciones.js"></script>
@@ -162,6 +164,7 @@
     <script src="./js/utils/navegation.js"></script>
     <script src="./js/background.js"></script>
     <script>
+        /*
         // Inicializar el juego cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
             // Mostrar pantalla principal después del splash
@@ -189,6 +192,7 @@
             const endgameForm = document.getElementById('endgame-form');
             const retryButton = document.getElementById('retry-button');
             const exitButton = document.getElementById('exit-button');
+            const sendButton = document.getElementById('send-button');
 
             if (endgameForm) {
                 endgameForm.addEventListener('submit', function(e) {
@@ -232,6 +236,14 @@
                     document.getElementById('endgame-screen').style.display = 'none';
                     document.getElementById('main-screen').style.display = 'block';
                 });
+                
+            }
+            if (sendButton) {
+                sendButton.addEventListener('click', function() {
+                    document.getElementById('endgame-screen').style.display = 'none';
+                    document.getElementById('main-screen').style.display = 'block';
+                });
+                
             }
 
             // Botón para volver al menú principal desde el juego
@@ -296,6 +308,10 @@
                 if (exitButton) {
                     exitButton.addEventListener('click', stopGame);
                 }
+                const sendButton = document.getElementById('send-button');
+                if (sendButton) {
+                    sendButton.addEventListener('click', stopGame);
+                }
 
                 // Pausar audio al mostrar el Easter Egg y reanudar al cerrarlo
                 const mainLogo = document.querySelector('#main-screen .main-logo');
@@ -326,8 +342,8 @@
                     });
                 }
             }
-        });
-    </script>
-    <audio id="main-theme-audio" src="/assets/Main%20theme-CpjqGjzu.mp3" loop></audio>
+        });*/
+    </script>-->
+    <audio id="main-theme-audio" src="/sonido/Main theme.mp3" loop></audio>
 </body>
 </html>
