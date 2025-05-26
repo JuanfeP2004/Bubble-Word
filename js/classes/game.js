@@ -119,6 +119,8 @@ class Game {
         this.createGrid();
         this.initClock();
         this.clock.start();
+        this.clock.reset();
+        setTimeout(() => { this.clock.start(); }, 500 * this.multiplier);
     }
 
     endGame() {
@@ -145,7 +147,8 @@ class Game {
         this.difficulty = difficulty;
         this.multiplier = multiplier;
         this.clock = new Reloj('time-number', 'hourglassCanvas', this.timeLimit);
-        
+        const hintButton = document.getElementById('hint-button');
+        hintButton.textContent = `Pista (${-200 * multiplier})`       
         if (this.isPlaying) {
             this.resetBubbleState();
             this.loadRandomImage();
@@ -356,18 +359,19 @@ class Game {
 
             // Limpiar el mensaje después de 1 segundo
             setTimeout(() => {
-                this.feedbackMessageElement.textContent = '';
-            }, 1000);
-
-            setTimeout(() => {
+                this.feedbackMessageElement.textContent = '';               
                 wordDisplay.classList.remove('correct');
+
                 this.resetBubbleState();
                 this.loadRandomImage();
                 this.selectWordFromImage();
                 this.createGrid();
                 this.clock.reset();
-                this.clock.start();
-            }, 1000);
+            }, 1000);            
+
+            setTimeout(() => {              
+                this.clock.start();           
+            }, 1000 + 500 * this.multiplier);            
         } else {
             this.feedbackMessageElement.textContent = 'Palabra incorrecta';
             this.feedbackMessageElement.style.color = '#ff4444';
@@ -515,10 +519,10 @@ class Game {
         this.hintsUsed++;
 
         if (typeof this.score === 'number') {
-            this.score -= 200;
+            this.score -= 200 * this.multiplier;
             document.querySelector('.points-number').textContent = this.score;
         } else if (typeof this.points === 'number') {
-            this.points -= 200;
+            this.points -= 200 * this.multiplier;
             document.querySelector('.points-number').textContent = this.points;
         }
 
