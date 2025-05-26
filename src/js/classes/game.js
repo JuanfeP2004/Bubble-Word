@@ -437,6 +437,32 @@ class Game {
         document.getElementById('player-name').value = '';
     }
 
+    backToMenu(){
+        //if (!this.isActive) return; // <--- Solo muestra si el juego sigue activo
+        this.isPlaying = false;
+        
+        // Limpiar los campos de entrada
+        this.selectedLetters = [];
+        this.updateWordDisplay();
+        
+        // Limpiar el mensaje de feedback
+        if (this.feedbackMessageElement) {
+            this.feedbackMessageElement.textContent = '';
+        }
+        
+        // Limpiar las burbujas seleccionadas
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach(bubble => {
+            bubble.classList.remove('selected', 'exploding');
+            bubble.style.opacity = 1;
+            bubble.style.pointerEvents = 'auto';
+            
+            // Limpiar mini-burbujas si existen
+            const miniBubbles = bubble.querySelectorAll('.mini-bubble');
+            miniBubbles.forEach(mini => mini.remove());
+        });
+    }
+
     loadBestGames() {
         const bestGames = JSON.parse(localStorage.getItem('bestGames') || '[]');
         const container = document.querySelector('.bestgames-container');
@@ -479,9 +505,12 @@ class Game {
     }
 
     useHint() {
+
         if (this.hintsUsed >= this.maxHints) {
             const hintButton = document.getElementById('hint-button');
-            if (hintButton) hintButton.disabled = true;
+
+            this.feedbackMessageElement.textContent = 'Ya usaste las tres pistas';
+            this.feedbackMessageElement.style.color = '#ff4444';
             return;
         }
 
@@ -500,8 +529,13 @@ class Game {
         const letrasFaltantes = targetWord.length - currentLetters.filter(l => l && l !== "").length;
         const hintButton = document.getElementById('hint-button');
         if (hintIndex === -1 || letrasFaltantes <= 1) {
-            if (hintButton) hintButton.disabled = true;
+            //if (hintButton) hintButton.disabled = true;
+            this.feedbackMessageElement.textContent = 'No puedes usar una pista con esta letra';
+            this.feedbackMessageElement.style.color = '#ff4444';
             return;
+        }
+        else {
+            if (hintButton) hintButton.disabled = false;
         }
 
         const hintLetter = targetWord[hintIndex];
@@ -511,14 +545,22 @@ class Game {
         for (let bubble of bubbles) {
             if (bubble.textContent.trim().toUpperCase() === hintLetter.toUpperCase()) {
                 bubbleToClick = bubble;
+                if (bubbleToClick.style.pointerEvents == 'none') continue;
                 break;
             }
         }
-        if (!bubbleToClick) return;
+        
+        if (bubbleToClick.style.pointerEvents == 'none') {
+            this.feedbackMessageElement.textContent = 'Has puesto la letra en otra posicion!';
+            this.feedbackMessageElement.style.color = '#ff4444';
+            return; //Bien
+        }
 
         bubbleToClick.click();
 
-        this.hintsUsed++;
+        if (this.hintsUsed >= this.maxHints) {
+            return;
+        }
 
         if (typeof this.score === 'number') {
             this.score -= 200 * this.multiplier;
@@ -528,9 +570,8 @@ class Game {
             document.querySelector('.points-number').textContent = this.points;
         }
 
-        if (this.hintsUsed >= this.maxHints) {
-            if (hintButton) hintButton.disabled = true;
-        }
+        this.hintsUsed++;
+
     }
 }
 

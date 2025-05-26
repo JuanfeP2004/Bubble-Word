@@ -1,8 +1,6 @@
 import Game from './classes/game.js';
 import Navegacion from './utils/navegation.js';
-
 import "./data/listwords.js"
-//import "./utils/reloj.js"
 import OpcionesScreen from "./classes/opciones.js"
 import PuntuacionesScreen from "./classes/puntuaciones.js"
 import "./background.js"
@@ -28,10 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         document.getElementById('splash-screen').style.display = 'none';
         document.getElementById('main-screen').style.display = 'block';
-        
-        // Crear instancia del juego e inicializar navegación
-        //window.game = new Game();
-        //window.navegacion = new Navegacion(window.game);
 
         // Crear instancias de las pantallas
         window.opcionesScreen = new OpcionesScreen(window.game);
@@ -110,7 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
         backToMenuBtn.addEventListener('click', function() {
             // Detener el juego completamente
             if (window.game && typeof window.game.endGame === 'function') {
-                window.game.endGame(); // Debe limpiar timers y lógica de juego
+                window.game.endGame();
+                window.game.backToMenu(); // Debe limpiar timers y lógica de juego
             }
             // Ocultar pantallas de juego y fin de partida
             document.getElementById('game-screen').style.display = 'none';
