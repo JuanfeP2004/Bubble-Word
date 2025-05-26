@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Word</title>
-    <link rel="shortcut icon" href="img/BubbleWordLogo.ico">
-    <link rel="stylesheet" href="css/splash.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="/img/BubbleWordLogo.ico">
+    <link rel="stylesheet" href="./src/css/splash.css">
+    <link rel="stylesheet" href="./src/css/style.css">
+    <script type="module" src="./src/js/main.js"></script>
+    
 </head>
 <body>
     <canvas id="backgroundCanvas"></canvas>
 
     <div id="splash-screen">
-        <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
+        <img src="/img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="splash-logo">
     </div>
 
     <div id="main-screen" style="display: none;">
         <section id="screen-inicio">
             <div class="content-wrapper">
                 <!-- Logo -->
-                <img src="img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="main-logo">
+                <img src="/img/BubbleWordLogo.ico" alt="Bubble Word Logo" class="main-logo">
                 <h1 class="tittle">Bubble Word</h1>
                 <button class="button" id="startButton">Jugar</button>
                 <button class="button" id="optionsButton">Opciones</button>
@@ -151,11 +153,11 @@
     </div>
 
     <div id="easter-egg-modal" style="display:none; position:fixed; z-index:2000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); justify-content:center; align-items:center;">
-        <img id="easter-egg-img" src="img/1.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
+        <img id="easter-egg-img" src="/img/1.webp" alt="Easter Egg" style="max-width:80vw; max-height:80vh; border-radius:16px; box-shadow:0 4px 32px #000;">
     </div>
 
     <!-- Cargar scripts en orden -->
-    <script src="./js/data/listwords.js"></script>
+    <!--<script src="./js/data/listwords.js"></script>
     <script src="./js/utils/reloj.js"></script>
     <script src="./js/classes/opciones.js"></script>
     <script src="./js/classes/puntuaciones.js"></script>
@@ -163,6 +165,7 @@
     <script src="./js/utils/navegation.js"></script>
     <script src="./js/background.js"></script>
     <script>
+        /*
         // Inicializar el juego cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
             // Mostrar pantalla principal después del splash
@@ -340,8 +343,8 @@
                     });
                 }
             }
-        });
-    </script>
-    <audio id="main-theme-audio" src="sonido/Main theme.mp3" loop></audio>
+        });*/
+    </script>-->
+    <audio id="main-theme-audio" src="/sonido/Main theme.mp3" loop></audio>
 </body>
 </html>

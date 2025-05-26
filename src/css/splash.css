@@ -1,0 +1,15 @@
+/* Styles for the splash screen */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #71C2DF; /* Background color for splash screen */
+}
+
+.splash-logo {
+    width: 150px;
+    height: 150px;
+}
